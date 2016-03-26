@@ -48,6 +48,7 @@
 		<img src="./images/logo.jpg" class="img-rounded" width="608"
 			height="472">
 
+
 	</div>
 
 	<div id="loginbox" style="margin-top: 50px;"
@@ -56,13 +57,13 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 
-				<div class="panel-title">Free Sign Up To Work Plan</div>
+				<div class="panel-title">Login as a worker user</div>
 
 			</div>
 			<div class="panel-body">
 
 
-				<form method="post" action="./SignUp" id="signupform"
+				<form method="post" action="./LoginS2" id="signupform"
 					class="form-horizontal" role="form">
 
 					<div id="signupalert" style="display: none"
@@ -72,18 +73,18 @@
 					</div>
 
 					<div class="form-group">
-						<label for="firstname" class="col-md-3 control-label">User
+						<label for="firstname" class="col-md-3 control-label" >User
 							name</label>
 						<div class="col-md-9">
 							<input type="text" class="form-control" name="username"
-								placeholder="Username" required>
+								placeholder="<c:out value="${user.username}" />" value="<c:out value="${user.username}" />" disabled>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="email" class="col-md-3 control-label">Email</label>
+						<label for="email" class="col-md-3 control-label" >Email</label>
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="email"
-								placeholder="Email Address" required>
+							<input type="text" class="form-control" name="email" value="<c:out value="${user.email}" />"
+								placeholder="<c:out value="${user.email}" />" disabled>
 						</div>
 					</div>
 
@@ -112,6 +113,7 @@
 
 						</div>
 					</div>
+					
 					<c:if test="${not empty errorMessage }">
 						<div class="form-group">
 							<div class="col-md-offset-3 col-md-9">

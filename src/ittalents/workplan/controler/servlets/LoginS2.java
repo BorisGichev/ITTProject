@@ -17,14 +17,14 @@ import ittalents.workplan.model.exception.DBException;
 /**
  * Servlet implementation class SignIn
  */
-@WebServlet("/SignUp")
-public class SignUp extends HttpServlet {
+@WebServlet("/LoginS2")
+public class LoginS2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SignUp() {
+	public LoginS2() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -45,26 +45,14 @@ public class SignUp extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String email = request.getParameter("email");
+		
+		User user =(User) request.getSession().getAttribute("user");
+		
 		String password = request.getParameter("password");
 		String reppassword = request.getParameter("repPassword");
 		
 		
-		response.getWriter().println(username + ":" + email + ":" + password + ":" + reppassword);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("./index.jsp");
-		
-		if (username.trim().length()<5) {
-			request.setAttribute("errorMessage", "Username must me at least 5 symbols");
-			dispatcher.forward(request, response);
-		}
-		
-
-		if (!isMailValid(email)) {
-			request.setAttribute("errorMessage", "Invalid e-mail! Try Again");
-			dispatcher.forward(request, response);
-		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("./login.jsp");
 
 		if (!password.equals(reppassword)) {
 			request.setAttribute("errorMessage", "Passwords do no match please use the button!");
@@ -75,25 +63,12 @@ public class SignUp extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		
-		try {
-			if (IUserDAO.getDAO("db").isThereSuchAUser(email)) {
-				request.setAttribute("errorMessage", "User with such mail exists !!!");
-				dispatcher.forward(request, response);
-			}
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		User user = new User();
 		
-		user.setEmail(email);
 		user.setPassword(password);
-		user.setUsername(username);
-		user.setAdmin(1);
+		user.setAdmin(0);
 		
-		request.getSession().setAttribute("user", user);
-		response.sendRedirect("./moreDetails.jsp");
+		response.sendRedirect("./homeTrue.jsp");
 		
 		
 		

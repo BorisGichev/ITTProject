@@ -8,6 +8,10 @@ public class User {
 	private String avatarPath;
 	
 	
+	private Integer admin=0;
+	private Integer organizationId=null;
+	
+	
 	public User() {
 		
 	}
@@ -62,6 +66,28 @@ public class User {
 
 	public void setAvatarPath(String avatarPath) {
 		this.avatarPath = avatarPath;
+	}
+
+	public void setAdmin(Integer admin) {
+		this.admin = admin;
+	}
+
+	public Integer getAdmin() {
+		return admin;
+	}
+
+	public Integer getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Integer organizationId) {
+		this.organizationId = organizationId;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", avatarPath=" + avatarPath + ", admin=" + admin + ", organizationId=" + organizationId + "]";
 	}
 
 }

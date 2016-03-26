@@ -33,5 +33,9 @@ public interface IUserDAO {
 	User loginUser(String username, String password,String organization)
 			throws WorkPlanDAOException, DBException;
 
+	int updateUser(User user) throws DBException, WorkPlanDAOException;
+
+	int updateOrgId(User user, Integer orgId) throws DBException, WorkPlanDAOException;
+
 	
 }

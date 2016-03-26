@@ -10,15 +10,17 @@ import java.sql.SQLException;
 
 public class OrganizationDAO extends AbstractDBConnDAO implements
 		IOrganizationDAO {
-	public int addActivity(Organization organization, int adminID)
-			throws WorkPlanDAOException, DBException {
+
+	@Override
+	public int addOrganization(Organization organization) throws WorkPlanDAOException, DBException {
 		if (organization == null) {
 			throw new WorkPlanDAOException("There is no organization to add!");
 		}
 		try {
 			PreparedStatement ps = getCon().prepareStatement(
-					"INSERT into organizations values (?,?);",
+					"INSERT into organizations values (null,?,?);",
 					PreparedStatement.RETURN_GENERATED_KEYS);
+			
 			ps.setString(1, organization.getName());
 			ps.setInt(2, organization.getAdminID());
 			ps.executeUpdate();
@@ -33,5 +35,6 @@ public class OrganizationDAO extends AbstractDBConnDAO implements
 		}
 
 	}
+	
 
 }

@@ -46,6 +46,11 @@ template {
 a {
   background-color: transparent;
 }
+
+#webmenu{
+width:340px;
+}
+
 a:active,
 a:hover {
   outline: 0;
