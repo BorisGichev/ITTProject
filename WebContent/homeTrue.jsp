@@ -37,7 +37,6 @@
 
 			<jsp:include page="header.jsp"></jsp:include>
 
-			<jsp:include page="systemDashboard.jsp"></jsp:include>
 
 
 			<!-- /#page-content-wrapper -->

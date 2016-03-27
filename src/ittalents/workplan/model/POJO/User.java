@@ -6,30 +6,29 @@ public class User {
 	private String email;
 	private String password;
 	private String avatarPath;
-	
-	
-	private Integer admin=0;
-	private Integer organizationId=null;
+
+	private Integer admin = 0;
+	private Integer organizationId = null;
 	private String organizationName;
-	
-	
+	private String fullName;
+
 	public User() {
-		
+
 	}
 
 	public User(int id, String username, String email, String password,
-			String avatarPath,Integer admin, Integer organizationId) {
+			String avatarPath, Integer admin, Integer organizationId,
+			String fullName) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.avatarPath = avatarPath;
-		this.admin=admin;
-		this.organizationId=organizationId;
+		this.admin = admin;
+		this.organizationId = organizationId;
+		this.fullName = fullName;
 	}
-	
-	
 
 	public int getId() {
 		return id;
@@ -89,8 +88,10 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", avatarPath=" + avatarPath + ", admin=" + admin + ", organizationId=" + organizationId + ", organizationName=" + organizationName+ "]";
+		return "User [id=" + id + ", username=" + username + ", email=" + email
+				+ ", password=" + password + ", avatarPath=" + avatarPath
+				+ ", admin=" + admin + ", organizationId=" + organizationId
+				+ ", organizationName=" + organizationName + "]";
 	}
 
 	public String getOrganizationName() {
@@ -99,6 +100,14 @@ public class User {
 
 	public void setOrganizationName(String organizationName) {
 		this.organizationName = organizationName;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 }

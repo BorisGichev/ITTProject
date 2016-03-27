@@ -18,7 +18,7 @@
 
 <!-- Custom CSS -->
 <link href="bootstrap/css/simple-sidebar.css" rel="stylesheet">
-<jsp:include page="home.html"></jsp:include>
+<jsp:include page="homeTrue.jsp"></jsp:include>
 <style type="text/css">
 hr {
 	border: 0;

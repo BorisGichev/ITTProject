@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Work Profile</title>
-<jsp:include page="home.html"></jsp:include>
+<jsp:include page="./homeTrue.jsp"></jsp:include>
 </head>
 <body>
 	<div class="container" style="width: 1000px; background-color: #E6E9EB">
