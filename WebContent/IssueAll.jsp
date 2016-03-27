@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="issue.html" />
+	<jsp:include page="issue.jsp" />
 	<div class="container" style="width: 900px">
 		<div class="row">
 			<div class="col-lg-8 col-md-12">

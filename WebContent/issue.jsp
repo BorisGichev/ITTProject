@@ -18,127 +18,149 @@
 
 <!-- Custom CSS -->
 <link href="bootstrap/css/simple-sidebar.css" rel="stylesheet">
+<jsp:include page="home.html"></jsp:include>
+<style type="text/css">
+hr {
+	border: 0;
+	border-bottom: 1px solid grey;
+	clear: both;
+	display: block;
+	height: 0;
+	margin: 0 auto 10px auto;
+	padding-top: 10px;
+	width: 100%;
+}
+</style>
 </head>
 <body>
 
-	<div id="wrapper">
 
-		<!-- Sidebar -->
-		<div id="sidebar-wrapper">
-			<ul class="sidebar-nav">
-				<li class="sidebar-brand"><a href="#"> Start Bootstrap </a></li>
-				<li><a href="#">Dashboard</a></li>
-				<li><a href="#">Shortcuts</a></li>
-				<li><a href="#">Overview</a></li>
-				<li><a href="#">Events</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">Services</a></li>
-				<li><a href="#">Contact</a></li>
-			</ul>
-		</div>
-		<!-- /#sidebar-wrapper -->
+	<div class="container" style="width: 1000px">
+		<div class="row">
+			<div class="col-lg-8 col-md-6">
+				<div class="col-lg-12 col-md-12">
+					<form action="#" method="get" style="display: inline">
+						<button class="btn btn-default">Edit</button>
+					</form>
 
-		<!-- Page Content -->
-		<div id="page-content-wrapper">
-			<div class="container">
+					<form action="#" method="get" style="display: inline">
+						<button class="btn btn-default">Assign</button>
+					</form>
+					<form action="#" method="get" style="display: inline">
+						<button class="btn btn-default">To Do</button>
+					</form>
+					<form action="#" method="get" style="display: inline">
+						<button class="btn btn-default">In Progress</button>
+					</form>
+					<form action="#" method="get" style="display: inline">
+						<button class="btn btn-default">Done</button>
+					</form>
+					<div class="row">
+						<!-- Horizontal  rule  start-->
+						<div style="width: 100%; text-align: center;">
+							<span style="width: 45%; display: inline; float: left;"><hr /></span>
+							<span style="display: inline; float: center;"><b>Details</b></span>
+							<span style="width: 45%; display: inline; float: right;"><hr /></span>
+						</div>
 
-				<!-- Search Navbar - START -->
-				<nav class="navbar navbar-default" role="navigation">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">WorkPlan</a>
-				</div>
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">Dashboards <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">System board</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-								<li class="divider"></li>
-							</ul></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">Projects <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Project</a></li>
-								<li><a href="#">Project</a></li>
-								<li><a href="#">Project</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Create new project</a></li>
-								<li class="divider"></li>
-							</ul></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">Issues <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">recent issue</a></li>
-								<li><a href="#">recent issue</a></li>
-								<li><a href="#">recent issue</a></li>
-								<li class="divider"></li>
-								<li><a href="#">My open issues</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Reported by me</a></li>
-								<li class="divider"></li>
-							</ul></li>
-						<li><a href="#">Create issue</a></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"> Admin Settings<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Manage users</a></li>
-							</ul></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"> User Settings<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Profile update</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Log out</a></li>
-								<li class="divider"></li>
-							</ul></li>
+						<!-- Horizontal  rule  end-->
 
-					</ul>
-					<div class="col-sm-3 col-md-3 pull-right">
-						<form class="navbar-form" role="search">
-							<div class="input-group">
-								<input type="text" class="form-control"
-									placeholder="Search for issues" name="q">
-								<div class="input-group-btn">
-									<button class="btn btn-default" type="submit">
-										<i class="glyphicon glyphicon-search"></i>
-									</button>
-								</div>
-							</div>
-						</form>
+						<div class="col-lg-3 col-md-6" align="left">Type:</div>
+						<div class="col-lg-3 col-md-6" align="left">#</div>
+						<div class="col-lg-3 col-md-6" align="left">Type:</div>
+						<div class="col-lg-3 col-md-6" align="left">#</div>
+						<div class="col-lg-3 col-md-6" align="left">Type:</div>
+						<div class="col-lg-3 col-md-6" align="left">#</div>
+						<div class="col-lg-3 col-md-6" align="left">Type:</div>
+						<div class="col-lg-3 col-md-6" align="left">#</div>
+						<div class="col-lg-3 col-md-6" align="left">Type:</div>
+						<div class="col-lg-3 col-md-6" align="left">#</div>
+						<div class="col-lg-3 col-md-6" align="left">Type:</div>
+						<div class="col-lg-3 col-md-6" align="left">#</div>
+						<div class="col-lg-3 col-md-6" align="left">Type:</div>
+						<div class="col-lg-3 col-md-6" align="left">#</div>
 					</div>
+					<div class="row">
+						<!-- Horizontal  rule  start-->
+						<div style="width: 100%; text-align: center;">
+							<span style="width: 42%; display: inline; float: left;"><hr /></span>
+							<span style="display: inline; float: center;"><b>Description</b></span>
+							<span style="width: 42%; display: inline; float: right;"><hr /></span>
+						</div>
+						<!-- Horizontal  rule  end-->
 
+					</div>
+					<div class="row">
+						<!-- Horizontal  rule  start-->
+						<div style="width: 100%; text-align: center;">
+							<span style="width: 42%; display: inline; float: left;"><hr /></span>
+							<span style="display: inline; float: center;"><b>Attachments</b></span>
+							<span style="width: 42%; display: inline; float: right;"><hr /></span>
+						</div>
+						<!-- Horizontal  rule  end-->
 
+					</div>
+					<div class="row">
+						<!-- Horizontal  rule  start-->
+						<div style="width: 100%; text-align: center;">
+							<span style="width: 45%; display: inline; float: left;"><hr /></span>
+							<span style="display: inline; float: center;"><b>Activity</b></span>
+							<span style="width: 45%; display: inline; float: right;"><hr /></span>
+						</div>
+						<!-- Horizontal  rule  end-->
+
+					</div>
 				</div>
-				</nav>
-
-				<!-- Search Navbar - END -->
-
-
 			</div>
+			<div class="col-lg-4 col-md-6" align="right">
+				<div class="col-lg-12 col-md-12">
+					<form action="#" method="get" style="display: inline">
+						<button class="btn btn-default">Print</button>
+					</form>
+					<div class="row">
+						<!-- Horizontal  rule  start-->
+						<div style="width: 100%; text-align: center;">
+							<span style="width: 100px; display: inline; float: left;"><hr /></span>
+							<span style="display: inline; float: center;"><b>People</b></span>
+							<span style="width: 100px; display: inline; float: right;"><hr /></span>
+						</div>
+						<!-- Horizontal  rule  end-->
+						<div class="col-lg-6 col-md-6" align="left">Assignee:</div>
+						<div class="col-lg-6 col-md-6" align="left">#</div>
+						<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
+						<div class="col-lg-6 col-md-6" align="left">#</div>
+						<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
+						<div class="col-lg-6 col-md-6" align="left">#</div>
+						<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
+						<div class="col-lg-6 col-md-6" align="left">#</div>
+					</div>
+					<div class="row">
+						<!-- Horizontal  rule  start-->
+						<div style="width: 100%; text-align: center;">
+							<span style="width: 100px; display: inline; float: left;"><hr /></span>
+							<span style="display: inline; float: center;"><b>Date</b></span>
+							<span style="width: 100px; display: inline; float: right;"><hr /></span>
+						</div>
 
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-3 col-md-3">
-						<h3>Wellkome to WorkPlan-the simple program for the
-							complicated enjineer</h3>
+						<!-- Horizontal  rule  end-->
 					</div>
-					<div class="col-lg-6 col-md-6">
-						<h2>Last logs here</h2>
+					<div class="row">
+						<!-- Horizontal  rule  start-->
+						<div style="width: 100%; text-align: center;">
+							<span style="width: 100px; display: inline; float: left;"><hr /></span>
+							<span style="display: inline; float: center;"><b>Date</b></span>
+							<span style="width: 100px; display: inline; float: right;"><hr /></span>
+						</div>
+
+						<!-- Horizontal  rule  end-->
 					</div>
+
 				</div>
-
 			</div>
 		</div>
-		<!-- /#page-content-wrapper -->
+	</div>
+	</div>
+	<!-- /#page-content-wrapper -->
 
 	</div>
 	<!-- /#wrapper -->
