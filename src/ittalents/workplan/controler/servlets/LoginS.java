@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ittalents.workplan.model.DAO.IUserDAO;
 import ittalents.workplan.model.POJO.User;
+import ittalents.workplan.model.exception.DBException;
 
 /**
  * Servlet implementation class LoginS
@@ -42,7 +44,14 @@ public class LoginS extends HttpServlet {
 		user.setUsername(username);
 		user.setAdmin(0);
 		
+		
+		try {
+			user=IUserDAO.getDAO("db").getUserByEmail(email);
+		} catch (DBException e) {
+			e.printStackTrace();
+		}
 		request.getSession().setAttribute("user", user);
+//		response.getWriter().println(user);
 		response.sendRedirect("./login.jsp");
 
 	}

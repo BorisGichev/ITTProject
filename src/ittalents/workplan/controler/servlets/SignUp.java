@@ -60,6 +60,12 @@ public class SignUp extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		
+		if (username.contains(" ")) {
+			request.setAttribute("errorMessage", "No spaces in username allowed");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
 
 		if (!isMailValid(email)) {
 			request.setAttribute("errorMessage", "Invalid e-mail! Try Again");
@@ -83,6 +89,12 @@ public class SignUp extends HttpServlet {
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		if (username.contains(" ")) {
+			request.setAttribute("errorMessage", "No spaces in username allowed");
+			dispatcher.forward(request, response);
+			return;
 		}
 		
 		User user = new User();

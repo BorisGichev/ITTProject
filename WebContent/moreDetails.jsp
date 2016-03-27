@@ -44,14 +44,27 @@
 						<span></span>
 					</div>
 
-					<div class="form-group">
-						<label for="oranization" class="col-md-3 control-label">Organization
-							name</label>
-						<div class="col-md-9">
-							<input type="text" class="form-control" name="orgName"
-								placeholder="Organization name" required>
+					<c:if test="${not empty user.organizationName }">
+						<div class="form-group">
+							<label for="oranization" class="col-md-3 control-label">Organization
+								name</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="username"
+									placeholder="<c:out value="${user.organizationName}" />"
+									value="<c:out value="${user.organizationName}" />" disabled>
+							</div>
+					</c:if>
+
+					<c:if test="${empty user.organizationName }">
+						<div class="form-group">
+							<label for="oranization" class="col-md-3 control-label">Organization
+								name</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="orgName"
+									placeholder="Organization name" required>
+							</div>
 						</div>
-					</div>
+					</c:if>
 
 					<div class="form-group">
 						<label for="avatars" class="col-md-3 control-label">Default

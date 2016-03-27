@@ -71,6 +71,12 @@ public class SendMail extends HttpServlet {
 			dispatcher.forward(request, response);
 			return;
 		}
+		
+		if (username.contains(" ")) {
+			request.setAttribute("errorMessage", "No spaces in username allowed");
+			dispatcher.forward(request, response);
+			return;
+		}
 
 		if (!isMailValid(email)) {
 			request.setAttribute("errorMessage", "Invalid e-mail! Try Again");

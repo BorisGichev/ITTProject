@@ -4,6 +4,9 @@ import ittalents.workplan.model.POJO.User;
 import ittalents.workplan.model.exception.DBException;
 import ittalents.workplan.model.exception.WorkPlanDAOException;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import javax.activation.UnsupportedDataTypeException;
 
 public interface IUserDAO {
@@ -36,6 +39,10 @@ public interface IUserDAO {
 	int updateUser(User user) throws DBException, WorkPlanDAOException;
 
 	int updateOrgId(User user, Integer orgId) throws DBException, WorkPlanDAOException;
+
+	User getUserByEmail(String email) throws DBException;
+
+	List<User> getAllUsersForOrganization(Integer orgId) throws SQLException;
 
 	
 }

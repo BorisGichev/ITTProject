@@ -34,7 +34,6 @@ public class MoreDetailsS extends HttpServlet {
 	 */
 	public MoreDetailsS() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -43,7 +42,6 @@ public class MoreDetailsS extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -55,71 +53,101 @@ public class MoreDetailsS extends HttpServlet {
 			throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("user");
 		
-		
-		String orgName=(request.getParameter("orgName"));
-//		response.getWriter().println(request.getParameter("avatarD"));
-		
-		try {
-			user.setId(IUserDAO.getDAO("db").addUser(user));
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (WorkPlanDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		response.getWriter().println(user);
 
-		File fileSaveDir = new File(INFO.IMAGES_PATH + File.separator + user.getId());
+		if (user.getAdmin() == 1) {
+			String orgName = (request.getParameter("orgName"));
 
-		if (!fileSaveDir.exists()) {
-			fileSaveDir.mkdir();
-		}
+			try {
+				user.setId(IUserDAO.getDAO("db").addUser(user));
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (WorkPlanDAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-		for (Part part : request.getParts()) {
-			part.write(fileSaveDir + File.separator + "avatar.jpg");
-		}
+			File fileSaveDir = new File(INFO.IMAGES_PATH + File.separator + user.getId());
 
-		user.setAvatarPath(fileSaveDir + File.separator + "avatar.jpg");
-		
-		
-		try {
-			IUserDAO.getDAO("db").updateUser(user);
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (WorkPlanDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if (!fileSaveDir.exists()) {
+				fileSaveDir.mkdir();
+			}
+
+			for (Part part : request.getParts()) {
+				part.write(fileSaveDir + File.separator + "avatar.jpg");
+			}
+
+			user.setAvatarPath(fileSaveDir + File.separator + "avatar.jpg");
+
+			try {
+				IUserDAO.getDAO("db").updateUser(user);
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (WorkPlanDAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			Organization org = new Organization();
+			org.setAdminID(user.getId());
+			org.setName(orgName);
+
+			try {
+				org.setId(IOrganizationDAO.getDAO("db").addOrganization(org));
+			} catch (WorkPlanDAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// response.getWriter().println(org);
+
+			user.setOrganizationId(org.getId());
+
+			try {
+				IUserDAO.getDAO("db").updateOrgId(user, org.getId());
+			} catch (DBException | WorkPlanDAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// response.getWriter().println(user);
+			getServletContext().getRequestDispatcher("/homeTrue.jsp").forward(request, response);
+
 		}
-		
-		Organization org= new Organization();
-		org.setAdminID(user.getId());
-		org.setName(orgName);
-		
-		
-		try {
-			org.setId(IOrganizationDAO.getDAO("db").addOrganization(org));
-		} catch (WorkPlanDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (user.getAdmin() == 0) {
+
+			File fileSaveDir = new File(INFO.IMAGES_PATH + File.separator + user.getId());
+
+			if (!fileSaveDir.exists()) {
+				fileSaveDir.mkdir();
+			}
+
+			for (Part part : request.getParts()) {
+				part.write(fileSaveDir + File.separator + "avatar.jpg");
+			}
+
+			user.setAvatarPath(fileSaveDir + File.separator + "avatar.jpg");
+
+			try {
+				IUserDAO.getDAO("db").updateUser(user);
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (WorkPlanDAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// response.getWriter().println(org);
+
+			// response.getWriter().println(user);
+			getServletContext().getRequestDispatcher("/homeTrue.jsp").forward(request, response);
+
 		}
-//		response.getWriter().println(org);
-		
-		user.setOrganizationId(org.getId());
-		
-		try {
-			IUserDAO.getDAO("db").updateOrgId(user, org.getId());
-		} catch (DBException | WorkPlanDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-//		response.getWriter().println(user);
-		getServletContext().getRequestDispatcher("/homeTrue.jsp").forward(request, response);
 
 	}
 

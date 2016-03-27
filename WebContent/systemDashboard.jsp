@@ -6,7 +6,7 @@
 				enjineer</h3>
 
 
-			<img src="./WebContent/images/customAvatars/10/avatar.jpg">
+			<img src="C:\Users\Boris\Desktop\FINALproject\WorkPlan\WebContent\images\customAvatars\48\avatar.jpg">
 		</div>
 		<div class="col-lg-6 col-md-6">
 			<h2>Last logs here</h2>

@@ -130,7 +130,7 @@
 							</button>
 
 							<span style="margin-left: 8px;">Have registration?<a
-								href="./login.html"> Log In Here </a></span>
+								href="./normalLogin.jsp"> Log In Here </a></span>
 						</div>
 					</div>
 				</form>

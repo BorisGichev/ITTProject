@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ittalents.workplan.model.DAO.IOrganizationDAO;
 import ittalents.workplan.model.DAO.IUserDAO;
 import ittalents.workplan.model.POJO.User;
 import ittalents.workplan.model.exception.DBException;
+import ittalents.workplan.model.exception.WorkPlanDAOException;
 
 /**
  * Servlet implementation class SignIn
@@ -62,16 +64,33 @@ public class LoginS2 extends HttpServlet {
 			request.setAttribute("errorMessage", "Password must contain 5 symbols and at least one number and leter");
 			dispatcher.forward(request, response);
 		}
-		
+			
 		
 		
 		user.setPassword(password);
-		user.setAdmin(0);
 		
-		response.sendRedirect("./homeTrue.jsp");
+		try {
+			IUserDAO.getDAO("db").updateUser(user);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WorkPlanDAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		try {
+			user.setOrganizationName(IOrganizationDAO.getDAO("db").getOrgName(user.getOrganizationId()));
+		} catch (WorkPlanDAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (DBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		
+//		response.getWriter().println(user);
+		response.sendRedirect("./moreDetails.jsp");	
 		
 
 	}

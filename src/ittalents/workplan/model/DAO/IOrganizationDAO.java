@@ -7,8 +7,7 @@ import ittalents.workplan.model.exception.DBException;
 import ittalents.workplan.model.exception.WorkPlanDAOException;
 
 public interface IOrganizationDAO {
-	
-	
+
 	public int addOrganization(Organization organization) throws WorkPlanDAOException, DBException;
 
 	public static IOrganizationDAO getDAO(String storage) throws UnsupportedDataTypeException {
@@ -17,4 +16,6 @@ public interface IOrganizationDAO {
 		}
 		throw new UnsupportedDataTypeException();
 	}
+
+	String getOrgName(int orgId) throws WorkPlanDAOException, DBException;
 }

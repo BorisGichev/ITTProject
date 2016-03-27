@@ -10,6 +10,7 @@ public class User {
 	
 	private Integer admin=0;
 	private Integer organizationId=null;
+	private String organizationName;
 	
 	
 	public User() {
@@ -17,13 +18,15 @@ public class User {
 	}
 
 	public User(int id, String username, String email, String password,
-			String avatarPath) {
+			String avatarPath,Integer admin, Integer organizationId) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.avatarPath = avatarPath;
+		this.admin=admin;
+		this.organizationId=organizationId;
 	}
 	
 	
@@ -87,7 +90,15 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", avatarPath=" + avatarPath + ", admin=" + admin + ", organizationId=" + organizationId + "]";
+				+ ", avatarPath=" + avatarPath + ", admin=" + admin + ", organizationId=" + organizationId + ", organizationName=" + organizationName+ "]";
+	}
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
 	}
 
 }
