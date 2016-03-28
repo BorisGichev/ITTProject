@@ -64,7 +64,7 @@ public class SendMail extends HttpServlet {
 		response.getWriter().println(username);
 		response.getWriter().println(email);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("./ManageUsersS");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("./userManagmentPage.jsp");
 
 		if (username.trim().length() < 5) {
 			request.setAttribute("errorMessage", "Username must me at least 5 symbols");

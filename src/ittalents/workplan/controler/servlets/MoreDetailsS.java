@@ -2,8 +2,6 @@ package ittalents.workplan.controler.servlets;
 
 import java.io.File;
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -54,15 +52,8 @@ public class MoreDetailsS extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("user");
-		System.out.println(user);
 		
-		
-		if (user!=null&&user.getAvatarPath()!=null&&user.getOrganizationId()!=null) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("./homeTrue.jsp");
-			dispatcher.forward(request, response);
-			return;
-			
-		}
+		response.getWriter().println(user);
 
 		if (user.getAdmin() == 1) {
 			String orgName = (request.getParameter("orgName"));
@@ -122,16 +113,9 @@ public class MoreDetailsS extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			try {
-				user.setOrganizationName(IOrganizationDAO.getDAO("db").getOrgName(user.getOrganizationId()));
-			} catch (WorkPlanDAOException | DBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 			// response.getWriter().println(user);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("./homeTrue.jsp");
-			dispatcher.forward(request, response);
+			getServletContext().getRequestDispatcher("/homeTrue.jsp").forward(request, response);
 
 		}
 		if (user.getAdmin() == 0) {
@@ -157,19 +141,11 @@ public class MoreDetailsS extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			try {
-				user.setOrganizationName(IOrganizationDAO.getDAO("db").getOrgName(user.getOrganizationId()));
-			} catch (WorkPlanDAOException | DBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 			// response.getWriter().println(org);
-			// response.getWriter().println(user);
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("./homeTrue.jsp");
-			dispatcher.forward(request, response);
+			// response.getWriter().println(user);
+			getServletContext().getRequestDispatcher("/homeTrue.jsp").forward(request, response);
 
 		}
 

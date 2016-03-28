@@ -30,8 +30,8 @@ public class LoginS extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String email = request.getParameter("email");
 
@@ -43,15 +43,14 @@ public class LoginS extends HttpServlet {
 		user.setEmail(email);
 		user.setUsername(username);
 		user.setAdmin(0);
-		
-		
+
 		try {
-			user=IUserDAO.getDAO("db").getUserByEmail(email);
+			user = IUserDAO.getDAO("db").getUserByEmail(email);
 		} catch (DBException e) {
 			e.printStackTrace();
 		}
 		request.getSession().setAttribute("user", user);
-//		response.getWriter().println(user);
+		// response.getWriter().println(user);
 		response.sendRedirect("./login.jsp");
 
 	}
@@ -60,8 +59,8 @@ public class LoginS extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

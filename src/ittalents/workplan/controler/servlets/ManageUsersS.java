@@ -35,6 +35,16 @@ public class ManageUsersS extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("user");
 		List<User> usersByOrg=null;
 		
@@ -47,22 +57,8 @@ public class ManageUsersS extends HttpServlet {
 
 		request.getSession().setAttribute("usersForOrg", usersByOrg);
 		
-		for (User user2 : usersByOrg) {
-			System.out.println(user2);
-		}
-		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("./userManagmentPage.jsp");
 		dispatcher.forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet (request,response);
-		
 	
 	}
 

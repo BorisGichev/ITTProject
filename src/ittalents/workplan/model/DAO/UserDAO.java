@@ -16,7 +16,7 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 	private static final String SELECT_USER_BY_USERNAME_AND_CORRECT_PASSWORD = "SELECT * from users u join organizations_users ou on(u.user_id=ou.user_id) where (u.username = ? AND u.password = ? AND ou.organization_name_id=?";
 	private static final String SELECT_FROM_USERS_BY_EMAIL = "Select * from users where email=?;";
 	private static final String SELECT_USER_BY_USERNAME = "Select * from users where username=?;";
-	private static final String INSERT_USER_INTO_DB = "INSERT into users values(null,?,?,?,?,null,?);";
+	private static final String INSERT_USER_INTO_DB = "INSERT into users values(null,?,?,?,?,null,?,?);";
 	private static final String UPDATE_USER_INTO_DB = "UPDATE users SET username = ?, password = ?, avatar_path=?, admin=?  WHERE user_id = ?;";
 	private static final String UPDATE_ONLY_ORG_ID = "UPDATE users SET organization_id=? WHERE user_id= ?;";
 
@@ -26,21 +26,23 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			throw new WorkPlanDAOException("There is no user to add!");
 		}
 		try {
-			PreparedStatement ps = getCon().prepareStatement(INSERT_USER_INTO_DB,
+			PreparedStatement ps = getCon().prepareStatement(
+					INSERT_USER_INTO_DB,
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getEmail());
 			ps.setString(3, user.getPassword());
 			ps.setString(4, user.getAvatarPath());
 			ps.setInt(5, user.getAdmin());
-
+			ps.setString(6,user.getFullName());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
 			return rs.getInt(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException("The user cannot be add right now!Try again later!", e);
+			throw new DBException(
+					"The user cannot be add right now!Try again later!", e);
 		}
 
 	}
@@ -53,7 +55,8 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			throw new WorkPlanDAOException("There is no user to update!");
 		}
 		try {
-			PreparedStatement ps = getCon().prepareStatement(UPDATE_USER_INTO_DB);
+			PreparedStatement ps = getCon().prepareStatement(
+					UPDATE_USER_INTO_DB);
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getAvatarPath());
@@ -64,18 +67,21 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			return 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException("The user cannot be Updated  right now!Try again later!", e);
+			throw new DBException(
+					"The user cannot be Updated  right now!Try again later!", e);
 		}
 
 	}
 
 	@Override
-	public int updateOrgId(User user, Integer orgId) throws DBException, WorkPlanDAOException {
+	public int updateOrgId(User user, Integer orgId) throws DBException,
+			WorkPlanDAOException {
 		if (user == null) {
 			throw new WorkPlanDAOException("There is no user to update!");
 		}
 		try {
-			PreparedStatement ps = getCon().prepareStatement(UPDATE_ONLY_ORG_ID);
+			PreparedStatement ps = getCon()
+					.prepareStatement(UPDATE_ONLY_ORG_ID);
 			ps.setInt(1, orgId);
 			ps.setInt(2, user.getId());
 
@@ -83,7 +89,8 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			return 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException("The user cannot be Updated  right now!Try again later!", e);
+			throw new DBException(
+					"The user cannot be Updated  right now!Try again later!", e);
 		}
 
 	}
@@ -95,12 +102,14 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			ps.setInt(1, userID);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
-			return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-					rs.getInt(7),rs.getInt(6));
+			return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+					rs.getString(4), rs.getString(5), rs.getInt(7),
+					rs.getInt(6),rs.getString(8));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException("Cannot get User right now!Try again later!", e);
+			throw new DBException("Cannot get User right now!Try again later!",
+					e);
 		}
 	}
 
@@ -109,14 +118,16 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 
 		try {
 
-			PreparedStatement ps = getCon().prepareStatement(SELECT_FROM_USERS_BY_EMAIL);
+			PreparedStatement ps = getCon().prepareStatement(
+					SELECT_FROM_USERS_BY_EMAIL);
 			ps.setString(1, email);
 
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
-				return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-						rs.getInt(7), rs.getInt(6));
+				return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+						rs.getString(4), rs.getString(5), rs.getInt(7),
+						rs.getInt(6),rs.getString(8));
 
 			}
 			return null;
@@ -124,16 +135,20 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 
-			throw new DBException("Cannot check for user right now!Try again later", e);
+			throw new DBException(
+					"Cannot check for user right now!Try again later", e);
 
 		}
 
 	}
 
-	public boolean isThereSuchAUser(String username, String email) throws DBException {
+	public boolean isThereSuchAUser(String username, String email)
+			throws DBException {
 		try {
-			PreparedStatement ps = getCon().prepareStatement(SELECT_USER_BY_USERNAME);
-			PreparedStatement ps2 = getCon().prepareStatement(SELECT_FROM_USERS_BY_EMAIL);
+			PreparedStatement ps = getCon().prepareStatement(
+					SELECT_USER_BY_USERNAME);
+			PreparedStatement ps2 = getCon().prepareStatement(
+					SELECT_FROM_USERS_BY_EMAIL);
 			ps.setString(1, username);
 			ps2.setString(1, email);
 			ResultSet rs = ps.executeQuery();
@@ -144,7 +159,8 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException("Cannot check for user right now!Try again later", e);
+			throw new DBException(
+					"Cannot check for user right now!Try again later", e);
 		}
 		System.out.println("false");
 		return false;
@@ -154,7 +170,8 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 	public boolean isThereSuchAUser(String email) throws DBException {
 		try {
 
-			PreparedStatement ps2 = getCon().prepareStatement(SELECT_FROM_USERS_BY_EMAIL);
+			PreparedStatement ps2 = getCon().prepareStatement(
+					SELECT_FROM_USERS_BY_EMAIL);
 			ps2.setString(1, email);
 
 			ResultSet rs2 = ps2.executeQuery();
@@ -163,7 +180,8 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException("Cannot check for user right now!Try again later", e);
+			throw new DBException(
+					"Cannot check for user right now!Try again later", e);
 		}
 		return false;
 	}
@@ -186,7 +204,8 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 	public User loginUser(String username, String password, String organization)
 			throws WorkPlanDAOException, DBException {
 		try {
-			PreparedStatement ps = getCon().prepareStatement(SELECT_USER_BY_USERNAME_AND_CORRECT_PASSWORD);
+			PreparedStatement ps = getCon().prepareStatement(
+					SELECT_USER_BY_USERNAME_AND_CORRECT_PASSWORD);
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ps.setString(3, organization);
@@ -195,8 +214,9 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			if (rs.next() == false) {
 				throw new WorkPlanDAOException("No such user");
 			}
-			return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-					rs.getInt(6), rs.getInt(7));
+			return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+					rs.getString(4), rs.getString(5), rs.getInt(6),
+					rs.getInt(7),rs.getString(8));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DBException("Cannot log right now!", e);
@@ -209,21 +229,45 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 		// TODO Auto-generated method stub
 
 	}
+	
 	@Override
-	public List<User> getAllUsersForOrganization (Integer orgId) throws SQLException {
-		List<User> users=new ArrayList<User>();
-		
-		PreparedStatement ps = getCon().prepareStatement("Select * from users where organization_id =?;");
+	public List<User> getAllUsersForOrganization(Integer orgId)
+			throws SQLException {
+		List<User> users = new ArrayList<User>();
+
+		PreparedStatement ps = getCon().prepareStatement(
+				"Select * from users where organization_id =?;");
 		ps.setInt(1, orgId);
-		
+
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
-			users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-					rs.getInt(7), rs.getInt(6)));		
+			users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+					rs.getString(4), rs.getString(5), rs.getInt(7), rs
+							.getInt(6),rs.getString(8)));
 		}
-		
+
 		return users;
-		
+
+	}
+
+	@Override
+	public List<User> getAllUsersForProject(Integer projID)
+			throws SQLException, DBException {
+		List<User> users = new ArrayList<User>();
+
+		PreparedStatement ps = getCon()
+				.prepareStatement(
+						"Select  id_user from users_projects where id_user_project =?;");
+		ps.setInt(1, projID);
+
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+			users.add(getUserById(rs.getInt(1)));
+		}
+
+		return users;
+
 	}
 }

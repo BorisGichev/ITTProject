@@ -15,8 +15,6 @@ public interface IUserDAO {
 
 	public User getUserById(int userID) throws DBException;
 
-	
-	
 	public static UserDAO getDAO(String storage)
 			throws UnsupportedDataTypeException {
 		if (storage.equalsIgnoreCase("db")) {
@@ -27,22 +25,24 @@ public interface IUserDAO {
 
 	public boolean isThereSuchAUser(String username, String email)
 			throws DBException;
-	
+
 	boolean isThereSuchAUser(String email) throws DBException;
 
-	
 	public void insertIntoAttachments(int userID, int activityID, String path);
 
-	User loginUser(String username, String password,String organization)
+	User loginUser(String username, String password, String organization)
 			throws WorkPlanDAOException, DBException;
 
 	int updateUser(User user) throws DBException, WorkPlanDAOException;
 
-	int updateOrgId(User user, Integer orgId) throws DBException, WorkPlanDAOException;
+	int updateOrgId(User user, Integer orgId) throws DBException,
+			WorkPlanDAOException;
 
 	User getUserByEmail(String email) throws DBException;
 
 	List<User> getAllUsersForOrganization(Integer orgId) throws SQLException;
 
-	
+	List<User> getAllUsersForProject(Integer orgId) throws SQLException,
+			DBException;
+
 }
