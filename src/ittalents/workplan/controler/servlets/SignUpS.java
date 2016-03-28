@@ -10,23 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ittalents.workplan.model.DAO.IOrganizationDAO;
 import ittalents.workplan.model.DAO.IUserDAO;
 import ittalents.workplan.model.POJO.User;
 import ittalents.workplan.model.exception.DBException;
-import ittalents.workplan.model.exception.WorkPlanDAOException;
 
 /**
  * Servlet implementation class SignIn
  */
-@WebServlet("/LoginS2")
-public class LoginS2 extends HttpServlet {
+@WebServlet("/SignUpS")
+public class SignUpS extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LoginS2() {
+	public SignUpS() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -47,14 +45,32 @@ public class LoginS2 extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		User user =(User) request.getSession().getAttribute("user");
-		
+		String username = request.getParameter("username");
+		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String reppassword = request.getParameter("repPassword");
 		
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("./login.jsp");
+		response.getWriter().println(username + ":" + email + ":" + password + ":" + reppassword);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("./index.jsp");
+		
+		if (username.trim().length()<5) {
+			request.setAttribute("errorMessage", "Username must me at least 5 symbols");
+			dispatcher.forward(request, response);
+		}
+		
+		if (username.contains(" ")) {
+			request.setAttribute("errorMessage", "No spaces in username allowed");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
+
+		if (!isMailValid(email)) {
+			request.setAttribute("errorMessage", "Invalid e-mail! Try Again");
+			dispatcher.forward(request, response);
+		}
 
 		if (!password.equals(reppassword)) {
 			request.setAttribute("errorMessage", "Passwords do no match please use the button!");
@@ -64,33 +80,35 @@ public class LoginS2 extends HttpServlet {
 			request.setAttribute("errorMessage", "Password must contain 5 symbols and at least one number and leter");
 			dispatcher.forward(request, response);
 		}
-			
-		
-		
-		user.setPassword(password);
 		
 		try {
-			IUserDAO.getDAO("db").updateUser(user);
+			if (IUserDAO.getDAO("db").isThereSuchAUser(email)) {
+				request.setAttribute("errorMessage", "User with such mail exists !!!");
+				dispatcher.forward(request, response);
+			}
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (WorkPlanDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
-		try {
-			user.setOrganizationName(IOrganizationDAO.getDAO("db").getOrgName(user.getOrganizationId()));
-		} catch (WorkPlanDAOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (DBException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if (username.contains(" ")) {
+			request.setAttribute("errorMessage", "No spaces in username allowed");
+			dispatcher.forward(request, response);
+			return;
 		}
 		
-//		response.getWriter().println(user);
-		response.sendRedirect("./moreDetails.jsp");	
+		User user = new User();
+		
+		user.setEmail(email);
+		user.setPassword(password);
+		user.setUsername(username);
+		user.setAdmin(1);
+		
+		request.getSession().setAttribute("user", user);
+		response.sendRedirect("./moreDetails.jsp");
+		
+		
+		
 		
 
 	}
