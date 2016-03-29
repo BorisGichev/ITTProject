@@ -39,9 +39,8 @@ public class Activity {
 		this.projectID = projectID;
 	}
 
-	Activity(int id, String summary, int reportedID, String status,
-			String type, int projectID) {
-		this.id = id;
+	public Activity(String summary, int reportedID, String status, String type,
+			int projectID) {
 		this.summary = summary;
 		this.reportedID = reportedID;
 		this.status = status;
@@ -162,4 +161,3 @@ public class Activity {
 	}
 
 }
-

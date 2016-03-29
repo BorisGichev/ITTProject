@@ -4,7 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="font-awesome/css/font-awesome.min.css" />
+
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<title>Issue Comments</title>
 </head>
 <body>
 	<jsp:include page="issue.jsp" />
@@ -22,13 +30,16 @@
 						style="display: inline">
 						<button class="btn btn-primary">Comments</button>
 					</form>
-					<form action="./IssueWorkLog.jsp" method="get" style="display: inline">
+					<form action="./IssueWorkLog.jsp" method="get"
+						style="display: inline">
 						<button class="btn btn-default">Work Log</button>
 					</form>
-					<form action="./IssueHistory.jsp" method="get" style="display: inline">
+					<form action="./IssueHistory.jsp" method="get"
+						style="display: inline">
 						<button class="btn btn-default">History</button>
 					</form>
-					<form action="./IssueActivity.jsp" method="get" style="display: inline">
+					<form action="./IssueActivity.jsp" method="get"
+						style="display: inline">
 						<button class="btn btn-default">Activity</button>
 					</form>
 
@@ -36,14 +47,14 @@
 				<hr />
 				<a href="#Foo" class="btn btn-default" data-toggle="collapse">Comment</a>
 				<div class="row">
-					<form class="collapse" id="Foo" action="" method="POST">
-						<textarea rows="10" cols="80" name="commentContent"
-							placeholder="Add your comment here..."></textarea>
-						<input type="submit" value="post!"></br>
-					</form>
-
+					<div id="Foo" class="collapse">
+						<form action="" method="POST">
+							<textarea rows="10" cols="80" name="commentContent"
+								placeholder="Add your comment here..."></textarea>
+							<input type="submit" value="post!" />
+						</form>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>

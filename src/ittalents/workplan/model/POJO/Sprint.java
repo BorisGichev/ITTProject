@@ -7,12 +7,16 @@ public class Sprint {
 	private boolean active;
 	private int projectId;
 	
-	 public Sprint(int id, String name, boolean is_active, int project_id) {
+	 public Sprint(int id,String name, boolean is_active, int project_id) {
 		super();
-		this.id = id;
+		this.id=id;
 		this.name = name;
 		this.setActive(is_active);
 		this.setProjectId(project_id);
+	}
+
+	public Sprint() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {
@@ -47,6 +51,13 @@ public class Sprint {
 
 	public void setProjectId(int projectId) {
 		this.projectId = projectId;
+	}
+
+	@Override
+	public String toString() {
+		return "Sprint [id=" + id + ", "
+				+ (name != null ? "name=" + name + ", " : "") + "active="
+				+ active + ", projectId=" + projectId + "]";
 	}
 
 }

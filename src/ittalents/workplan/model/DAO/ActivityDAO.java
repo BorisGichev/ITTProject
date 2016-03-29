@@ -7,8 +7,11 @@ import ittalents.workplan.model.exception.WorkPlanDAOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.activation.UnsupportedDataTypeException;
 
 public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 	private static final String SELECT_ACTIVITY_BY_ASSIGNEE_ID = "SELECT * from activities where assignee_id=?";
@@ -118,6 +121,66 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 			throw new DBException(
 					"Cannot get Activity right now!Try again later!");
 		}
+	}
+
+	public List<Activity> getAllActivitiesBySprintID(Integer sprintID)
+			throws DBException, WorkPlanDAOException {
+		List<Activity> activitiesInSprint = new ArrayList<Activity>();
+
+		PreparedStatement ps;
+		try {
+			ps = getCon().prepareStatement(
+					"Select  activity_id from activities where sprint_id =?;");
+			ps.setInt(1, sprintID);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				activitiesInSprint.add(getActivityByID(rs.getInt(1)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return activitiesInSprint;
+	}
+
+	public void setSprint(Integer activityID, Integer sprintID)
+			throws WorkPlanDAOException, DBException {
+		if (sprintID == null) {
+			throw new WorkPlanDAOException(
+					"There is no sprint to add to activity!");
+		}
+		try {
+			PreparedStatement ps = getCon().prepareStatement(
+					"Update  activities set sprint_id=? where activity_id=?;");
+			ps.setInt(1, sprintID);
+			ps.setInt(2, activityID);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DBException(
+					"The sprint cannot be add right now to the activity!Try again later!");
+		}
+	}
+
+	@Override
+	public List<Activity> getActivitiesNotInSprint(Integer projectID) {
+		List<Activity> activitiesNotInSprint = new ArrayList<Activity>();
+		try {
+			for (Activity activity : IActivityDAO.getDAO("db")
+					.getActivitiesByProject(projectID)) {
+				if (activity.getSprintID() == 0) {
+					activitiesNotInSprint.add(activity);
+				}
+			}
+		} catch (UnsupportedDataTypeException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return activitiesNotInSprint;
 	}
 
 }

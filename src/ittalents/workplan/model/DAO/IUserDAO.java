@@ -42,7 +42,4 @@ public interface IUserDAO {
 
 	List<User> getAllUsersForOrganization(Integer orgId) throws SQLException;
 
-	List<User> getAllUsersForProject(Integer orgId) throws SQLException,
-			DBException;
-
 }

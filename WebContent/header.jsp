@@ -26,14 +26,14 @@
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Projects <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Project</a></li>
+						<li><a href="./ProjectBoard">Project board</a></li>
 						<li><a href="#">Project</a></li>
 						<li><a href="#">Project</a></li>
 
 
 						<c:if test="${sessionScope.user.admin == 1 }">
 							<li class="divider"></li>
-							<li><a href="#">Create new project</a></li>
+							<li><a href="./CreateProjectServlet">Create new project</a></li>
 							<li class="divider"></li>
 
 						</c:if>
@@ -52,7 +52,7 @@
 						<li><a href="#">Reported by me</a></li>
 						<li class="divider"></li>
 					</ul></li>
-				<li><a href="#">Create issue</a></li>
+				<li><a href="./createissue.jsp">Create issue</a></li>
 
 				<c:if test="${sessionScope.user.admin == 1 }">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"

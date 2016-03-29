@@ -4,7 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Issue Activity</title>
+<link rel="stylesheet" type="text/css"
+	href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="font-awesome/css/font-awesome.min.css" />
+
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="issue.jsp" />
@@ -37,5 +45,6 @@
 			</div>
 		</div>
 	</div>
+	
 </body>
 </html>

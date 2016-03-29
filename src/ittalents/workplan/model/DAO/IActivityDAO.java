@@ -9,7 +9,7 @@ import java.util.List;
 import javax.activation.UnsupportedDataTypeException;
 
 public interface IActivityDAO {
-	
+
 	public static ActivityDAO getDAO(String storage)
 			throws UnsupportedDataTypeException {
 		if (storage.equalsIgnoreCase("db")) {
@@ -24,11 +24,15 @@ public interface IActivityDAO {
 	public abstract List<Activity> getActivitiesByProject(int projectID)
 			throws DBException;
 
-	
+	Activity getActivityByID(int activityID) throws WorkPlanDAOException,
+			DBException;
 
-	Activity getActivityByID(int activityID) throws WorkPlanDAOException, DBException;
+	List<Activity> getActivitiesByAssigneeID(int userID) throws DBException;
 
-	List<Activity> getActivitiesByAssigneeID(int userID)
-			throws  DBException;
+	public List<Activity> getAllActivitiesBySprintID(Integer sprintID)
+			throws DBException, WorkPlanDAOException;
 
+	public void setSprint(Integer activityID, Integer sprintID)
+			throws WorkPlanDAOException, DBException;
+	public List<Activity> getActivitiesNotInSprint(Integer projectID);
 }

@@ -23,7 +23,7 @@ input, select {
 				<div>
 					<div>
 
-						<form action="./CreateProfileServlet" method="post" id="Foo">
+						<form action="./CreateProjectServlet" method="post">
 							<div class="row">
 								<div class="col-lg-4 col-md-12">
 									<label>Project name</label>
@@ -38,6 +38,8 @@ input, select {
 								</div>
 								<div class="col-lg-2 col-md-12">
 									<input type="text" name="key" placeholder="Project key" />
+									<!-- this submit is referred by label outside the form -->
+									<input type="submit" id="createprojectform" class="hidden" />
 								</div>
 							</div>
 							<div class="row">
@@ -54,21 +56,21 @@ input, select {
 									</select>
 								</div>
 							</div>
+
 						</form>
 					</div>
 				</div>
 			</div>
 			<div class="row" style="margin-top: 20px">
 				<div class="col-lg-6 col-md-12">
-					<form action="./CreateProjectServlet" method="post">
-						<button href="#Foo" class="btn btn-primary">Create
-							project</button>
-					</form>
+					<!-- this label refers submit button in inside form -->
+					<label for="createprojectform" class="btn btn-primary">Create
+						project </label>
 				</div>
 			</div>
 		</div>
-		<div style="margin-top: 100px; margin-left: 30%">
-			<img src="./images/creatingproject.jpg" />
+		<div style="margin-top: 100px; margin-left: ">
+			<img src="./images/creatingproject.jpg" width="60%" height="60%"/>
 		</div>
 	</div>
 </body>

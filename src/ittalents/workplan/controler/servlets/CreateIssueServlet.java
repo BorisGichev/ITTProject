@@ -1,7 +1,9 @@
 package ittalents.workplan.controler.servlets;
 
+import ittalents.workplan.model.DAO.IActivityDAO;
 import ittalents.workplan.model.DAO.IProjectDAO;
 import ittalents.workplan.model.DAO.IUserDAO;
+import ittalents.workplan.model.POJO.Activity;
 import ittalents.workplan.model.POJO.Project;
 import ittalents.workplan.model.POJO.User;
 import ittalents.workplan.model.exception.DBException;
@@ -17,16 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class CreateProjectServlet
+ * Servlet implementation class CreateIssueServlet
  */
-@WebServlet("/CreateProjectServlet")
-public class CreateProjectServlet extends HttpServlet {
+@WebServlet("/CreateIssueServlet")
+public class CreateIssueServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public CreateProjectServlet() {
+	public CreateIssueServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -49,7 +51,7 @@ public class CreateProjectServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("./createproject.jsp").forward(request,
+		request.getRequestDispatcher("./createissue.jsp").forward(request,
 				response);
 	}
 
@@ -57,12 +59,14 @@ public class CreateProjectServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		User user = (User) req.getSession().getAttribute("user");
-		Project project = new Project(req.getParameter("name"),
-				user.getOrganizationId(), req.getParameter("key"),
-				Integer.parseInt(req.getParameter("leader")));
+		// to repair that "To do" in costructor
+		Activity activity = new Activity(req.getParameter("summary"),
+				user.getId(), req.getParameter("issueType"), "To do", (int) req
+						.getSession().getAttribute("projectID"));
 		try {
-			Integer projectID = IProjectDAO.getDAO("db").addProject(project);
-			req.getSession().setAttribute("projectID", projectID);
+			Integer activityID = IActivityDAO.getDAO("db")
+					.addActivity(activity);
+			// req.getSession().setAttribute("projectID", projectID);
 		} catch (WorkPlanDAOException | DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

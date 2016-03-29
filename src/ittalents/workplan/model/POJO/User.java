@@ -13,8 +13,7 @@ public class User {
 	private String fullName;
 
 	public User() {
-
-	}
+	};
 
 	public User(int id, String username, String email, String password,
 			String avatarPath, Integer admin, Integer organizationId,

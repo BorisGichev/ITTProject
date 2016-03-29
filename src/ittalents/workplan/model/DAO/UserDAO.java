@@ -34,7 +34,7 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			ps.setString(3, user.getPassword());
 			ps.setString(4, user.getAvatarPath());
 			ps.setInt(5, user.getAdmin());
-			ps.setString(6,user.getFullName());
+			ps.setString(6, user.getFullName());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
@@ -104,7 +104,7 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			rs.next();
 			return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
 					rs.getString(4), rs.getString(5), rs.getInt(7),
-					rs.getInt(6),rs.getString(8));
+					rs.getInt(6), rs.getString(8));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,7 +127,7 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			if (rs.next()) {
 				return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
 						rs.getString(4), rs.getString(5), rs.getInt(7),
-						rs.getInt(6),rs.getString(8));
+						rs.getInt(6), rs.getString(8));
 
 			}
 			return null;
@@ -216,7 +216,7 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 			}
 			return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
 					rs.getString(4), rs.getString(5), rs.getInt(6),
-					rs.getInt(7),rs.getString(8));
+					rs.getInt(7), rs.getString(8));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DBException("Cannot log right now!", e);
@@ -229,7 +229,7 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@Override
 	public List<User> getAllUsersForOrganization(Integer orgId)
 			throws SQLException {
@@ -244,30 +244,11 @@ public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 		while (rs.next()) {
 			users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3),
 					rs.getString(4), rs.getString(5), rs.getInt(7), rs
-							.getInt(6),rs.getString(8)));
+							.getInt(6), rs.getString(8)));
 		}
 
 		return users;
 
 	}
 
-	@Override
-	public List<User> getAllUsersForProject(Integer projID)
-			throws SQLException, DBException {
-		List<User> users = new ArrayList<User>();
-
-		PreparedStatement ps = getCon()
-				.prepareStatement(
-						"Select  id_user from users_projects where id_user_project =?;");
-		ps.setInt(1, projID);
-
-		ResultSet rs = ps.executeQuery();
-
-		while (rs.next()) {
-			users.add(getUserById(rs.getInt(1)));
-		}
-
-		return users;
-
-	}
 }
