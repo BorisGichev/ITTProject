@@ -47,7 +47,7 @@ public class ProjectBoard extends HttpServlet {
 					.getDAO("db").getAllSprintByProjectID(
 							(Integer) request.getSession().getAttribute(
 									"projectID"));
-			System.out.println(listWithSprintsForThisProject);
+//			System.out.println(listWithSprintsForThisProject);
 			Map<Sprint, ArrayList<Activity>> activitiesBySprint = new TreeMap<Sprint, ArrayList<Activity>>(
 					(s1, s2) -> s1.getId() - s2.getId());
 			for (Sprint sprint : listWithSprintsForThisProject) {
@@ -60,7 +60,7 @@ public class ProjectBoard extends HttpServlet {
 
 			}
 			request.setAttribute("activitiesBySprint", activitiesBySprint);
-			System.out.println("Map: " + activitiesBySprint);
+//			System.out.println("Map: " + activitiesBySprint);
 			List<Activity> activitiesNotInSprint = IActivityDAO.getDAO("db")
 					.getActivitiesNotInSprint(
 							(Integer) request.getSession().getAttribute(
@@ -68,6 +68,11 @@ public class ProjectBoard extends HttpServlet {
 
 			request.getSession().setAttribute("activitiesNotInSprint",
 					activitiesNotInSprint);
+//			int activeSprint = ISprintDAO.getDAO("db")
+//					.isThereAnActiveSprintInThisProject(
+//							(Integer) request.getSession().getAttribute(
+//									"projectID"));
+//			request.getSession().setAttribute("activeSprint", activeSprint);
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

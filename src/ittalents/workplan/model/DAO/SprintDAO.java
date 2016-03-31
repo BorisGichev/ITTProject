@@ -57,19 +57,19 @@ public class SprintDAO extends AbstractDBConnDAO implements ISprintDAO {
 
 	}
 
-	public boolean isThereAnActiveSprintInThisProject(int projectID)
+	public int isThereAnActiveSprintInThisProject(int projectID)
 			throws DBException {
 		try {
 			PreparedStatement ps = getCon().prepareStatement(
-					"Select is_active from sprints where project_id=?");
+					"Select sprint_id,is_active from sprints where project_id=?");
 			ps.setInt(1, projectID);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				if (rs.getBoolean(1) == true) {
-					return true;
+				if (rs.getBoolean(2) == true) {
+					return rs.getInt(1);
 				}
 			}
-			return false;
+			return 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DBException("Cannot get info right now!Try again later!",

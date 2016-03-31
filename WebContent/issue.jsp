@@ -37,7 +37,11 @@ hr {
 
 	<div class="container" style="width: 1000px">
 		<div class="row">
+			<div class="row" align="center">
+				<h3>${sessionScope.activity.summary}</h3>
+			</div>
 			<div class="col-lg-8 col-md-6">
+
 				<div class="col-lg-12 col-md-12">
 					<form action="#" method="get" style="display: inline">
 						<button class="btn btn-default">Edit</button>
@@ -64,21 +68,28 @@ hr {
 						</div>
 
 						<!-- Horizontal  rule  end-->
-
-						<div class="col-lg-3 col-md-6" align="left">Type:</div>
-						<div class="col-lg-3 col-md-6" align="left">#</div>
-						<div class="col-lg-3 col-md-6" align="left">Type:</div>
-						<div class="col-lg-3 col-md-6" align="left">#</div>
-						<div class="col-lg-3 col-md-6" align="left">Type:</div>
-						<div class="col-lg-3 col-md-6" align="left">#</div>
-						<div class="col-lg-3 col-md-6" align="left">Type:</div>
-						<div class="col-lg-3 col-md-6" align="left">#</div>
-						<div class="col-lg-3 col-md-6" align="left">Type:</div>
-						<div class="col-lg-3 col-md-6" align="left">#</div>
-						<div class="col-lg-3 col-md-6" align="left">Type:</div>
-						<div class="col-lg-3 col-md-6" align="left">#</div>
-						<div class="col-lg-3 col-md-6" align="left">Type:</div>
-						<div class="col-lg-3 col-md-6" align="left">#</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-6" align="left">Type:</div>
+							<div class="col-lg-3 col-md-6" align="left">${sessionScope.activity.type}</div>
+							<div class="col-lg-3 col-md-6" align="left">Status:</div>
+							<div class="col-lg-3 col-md-6" align="left">${sessionScope.activity.status}</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-6" align="left">Type:</div>
+							<div class="col-lg-3 col-md-6" align="left">#</div>
+							<div class="col-lg-3 col-md-6" align="left">Type:</div>
+							<div class="col-lg-3 col-md-6" align="left">#</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-6" align="left">Type:</div>
+							<div class="col-lg-3 col-md-6" align="left">#</div>
+							<div class="col-lg-3 col-md-6" align="left">Type:</div>
+							<div class="col-lg-3 col-md-6" align="left">#</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-6" align="left">Type:</div>
+							<div class="col-lg-3 col-md-6" align="left">#</div>
+						</div>
 					</div>
 					<div class="row">
 						<!-- Horizontal  rule  start-->
@@ -87,6 +98,7 @@ hr {
 							<span style="display: inline; float: center;"><b>Description</b></span>
 							<span style="width: 42%; display: inline; float: right;"><hr /></span>
 						</div>
+						${sessionScope.activity.description}
 						<!-- Horizontal  rule  end-->
 
 					</div>
@@ -125,40 +137,47 @@ hr {
 							<span style="width: 100px; display: inline; float: right;"><hr /></span>
 						</div>
 						<!-- Horizontal  rule  end-->
-						<div class="col-lg-6 col-md-6" align="left">Assignee:</div>
-						<div class="col-lg-6 col-md-6" align="left">#</div>
-						<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
-						<div class="col-lg-6 col-md-6" align="left">#</div>
-						<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
-						<div class="col-lg-6 col-md-6" align="left">#</div>
-						<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
-						<div class="col-lg-6 col-md-6" align="left">#</div>
-					</div>
-					<div class="row">
-						<!-- Horizontal  rule  start-->
-						<div style="width: 100%; text-align: center;">
-							<span style="width: 100px; display: inline; float: left;"><hr /></span>
-							<span style="display: inline; float: center;"><b>Date</b></span>
-							<span style="width: 100px; display: inline; float: right;"><hr /></span>
+						<div class="row">
+							<div class="col-lg-6 col-md-6" align="left">Assignee:</div>
+							<div class="col-lg-6 col-md-6" align="left">${sessionScope.assignee}</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
+							<div class="col-lg-6 col-md-6" align="left">${sessionScope.reporter}</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
+							<div class="col-lg-6 col-md-6" align="left">#</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
+							<div class="col-lg-6 col-md-6" align="left">#</div>
+						</div>
+						<div class="row">
+							<!-- Horizontal  rule  start-->
+							<div style="width: 100%; text-align: center;">
+								<span style="width: 110px; display: inline; float: left;"><hr /></span>
+								<span style="display: inline; float: center;"><b>Date</b></span>
+								<span style="width: 110px; display: inline; float: right;"><hr /></span>
+							</div>
+
+							<!-- Horizontal  rule  end-->
+						</div>
+						<div class="row">
+							<!-- Horizontal  rule  start-->
+							<div style="width: 100%; text-align: center;">
+								<span style="width: 100px; display: inline; float: left;"><hr /></span>
+								<span style="display: inline; float: center;"><b>Date</b></span>
+								<span style="width: 100px; display: inline; float: right;"><hr /></span>
+							</div>
+
+							<!-- Horizontal  rule  end-->
 						</div>
 
-						<!-- Horizontal  rule  end-->
 					</div>
-					<div class="row">
-						<!-- Horizontal  rule  start-->
-						<div style="width: 100%; text-align: center;">
-							<span style="width: 100px; display: inline; float: left;"><hr /></span>
-							<span style="display: inline; float: center;"><b>Date</b></span>
-							<span style="width: 100px; display: inline; float: right;"><hr /></span>
-						</div>
-
-						<!-- Horizontal  rule  end-->
-					</div>
-
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<!-- /#page-content-wrapper -->
 

@@ -24,7 +24,7 @@ public interface ISprintDAO {
 	public int addSprint(Sprint sprint) throws WorkPlanDAOException,
 			DBException;
 
-	public boolean isThereAnActiveSprintInThisProject(int projectID)
+	public int isThereAnActiveSprintInThisProject(int projectID)
 			throws DBException;
 
 	public Sprint getSprintById(int sprintID) throws DBException;

@@ -21,7 +21,7 @@ public class Activity {
 
 	public Activity(int id, String summary, String description, String version,
 			double estimate, Timestamp createdOn, Timestamp updatedOn,
-			int reportedID, int assigneeID, String status, String type,
+			int reporterID, int assigneeID, String status, String type,
 			int sprintID, int connectedToID, int projectID) {
 		this.id = id;
 		this.summary = summary;
@@ -30,7 +30,7 @@ public class Activity {
 		this.estimate = estimate;
 		this.createdOn = createdOn;
 		this.updatedOn = updatedOn;
-		this.reportedID = reportedID;
+		this.reportedID = reporterID;
 		this.assigneeID = assigneeID;
 		this.status = status;
 		this.type = type;
@@ -39,10 +39,10 @@ public class Activity {
 		this.projectID = projectID;
 	}
 
-	public Activity(String summary, int reportedID, String status, String type,
+	public Activity(String summary, int reporterID, String status, String type,
 			int projectID) {
 		this.summary = summary;
-		this.reportedID = reportedID;
+		this.reportedID = reporterID;
 		this.status = status;
 		this.type = type;
 		this.projectID = projectID;

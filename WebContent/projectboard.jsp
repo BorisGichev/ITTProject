@@ -9,7 +9,7 @@
 <jsp:include page="homeTrue.jsp"></jsp:include>
 </head>
 <body>
-	<div class="container" style="width: 1000px">
+	<div class="container" style="width: 900px">
 		<div class="row" align="center">
 
 			<div id="sprint" class="collapse">
@@ -18,7 +18,7 @@
 				</div>
 				<div class="col-lg-2 col-md-12">
 					<form style="display: inline" action="./CreateSprint" method="get">
-						<input type="text" name="name" /><input type="submit"
+						<input type="text" name="sprintName" /><input type="submit"
 							class="btn btn-primary" value="Create Sprint" />
 					</form>
 				</div>
@@ -33,19 +33,28 @@
 			<div class="col-lg-12 col-md-12">
 				<c:forEach var="entry" items="${activitiesBySprint}">
 					<h4>
-						<a href="./SprintInfo?id=${entry.key.id}">Sprint:${entry.key.name}</a>
+						<a href="./SprintInfo?id=${entry.key.id}">Sprint:${entry.key.name}
+						</a>
+						<c:if test="${sessionScope.activeSprint==entry.key.id}">
+							<a href="./SprintInfo?id=${entry.key.id}" class="btn btn-warning">Running
+							</a>
+						</c:if>
+						<c:if test="${empty sessionScope.activeSprint}">
+							<a href="./SprintInfo?id=${entry.key.id}&active=true"
+								class="btn btn-primary">Start Sprint </a>
+						</c:if>
 					</h4>
 					<br />
 					<c:forEach var="activity" items="${entry.value}">
-						<a href="./IssueAll?id=${activity.id}">Issue:${activity.summary}</a>
+						<a href="./Issue?id=${activity.id}">Issue:${activity.summary}</a>
 					</c:forEach>
 					<hr />
 				</c:forEach>
 				<hr />
 				<c:forEach var="activity"
 					items="${sessionScope.activitiesNotInSprint}">
-				Issue:<a href="./IssueAll?id=${activity.id}">${activity.summary}</a>
-					<form action="./IssueAll" method="get">
+				Issue:<a href="./Issue?id=${activity.id}">${activity.summary}</a>
+					<form action="./Issue" method="get">
 						<button name="id" value="${activity.id}" class="btn btn-primary">View</button>
 					</form>
 				</c:forEach>

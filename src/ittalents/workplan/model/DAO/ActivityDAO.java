@@ -183,4 +183,36 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 		return activitiesNotInSprint;
 	}
 
+	public List<Activity> getAllActivitiesWithStatus(ActivityStatus activityStatus,
+			int sprintID) throws DBException, WorkPlanDAOException {
+		List<Activity> getAllActivitiesWithStatusInSprint = new ArrayList<Activity>();
+
+		PreparedStatement ps;
+		try {
+			ps = getCon()
+					.prepareStatement(
+							"Select  activity_id from activities where status=? AND sprint_id=?;");
+			if (activityStatus == ActivityStatus.ToDo) {
+				ps.setString(1, "To do");
+			}
+			if (activityStatus == ActivityStatus.InProgress) {
+				ps.setString(1, "In Progress");
+			}
+			if (activityStatus == ActivityStatus.Done) {
+				ps.setString(1, "Done");
+			}
+			ps.setInt(2, sprintID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				getAllActivitiesWithStatusInSprint.add(getActivityByID(rs
+						.getInt(1)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return getAllActivitiesWithStatusInSprint;
+	}
+
 }

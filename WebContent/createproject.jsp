@@ -69,8 +69,8 @@ input, select {
 				</div>
 			</div>
 		</div>
-		<div style="margin-top: 100px; margin-left: ">
-			<img src="./images/creatingproject.jpg" width="60%" height="60%"/>
+		<div style="margin-top: 100px; margin-left:">
+			<img src="./images/creatingproject.jpg" width="60%" height="60%" />
 		</div>
 	</div>
 </body>

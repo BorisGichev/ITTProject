@@ -12,7 +12,7 @@ import ittalents.workplan.model.exception.WorkPlanDAOException;
 
 public class UserDAO extends AbstractDBConnDAO implements IUserDAO {
 
-	private static final String SELECT_USER_BY_ID = "SELECT * from users where user_id=?);";
+	private static final String SELECT_USER_BY_ID = "SELECT * from users where user_id=?;";
 	private static final String SELECT_USER_BY_USERNAME_AND_CORRECT_PASSWORD = "SELECT * from users u join organizations_users ou on(u.user_id=ou.user_id) where (u.username = ? AND u.password = ? AND ou.organization_name_id=?";
 	private static final String SELECT_FROM_USERS_BY_EMAIL = "Select * from users where email=?;";
 	private static final String SELECT_USER_BY_USERNAME = "Select * from users where username=?;";
