@@ -1,15 +1,14 @@
 package ittalents.workplan.controler.servlets;
 
-import ittalents.workplan.model.DAO.IActivityDAO;
 import ittalents.workplan.model.DAO.ICommentDAO;
-import ittalents.workplan.model.DAO.IUserDAO;
 import ittalents.workplan.model.POJO.Activity;
 import ittalents.workplan.model.POJO.Comment;
+import ittalents.workplan.model.POJO.User;
 import ittalents.workplan.model.exception.DBException;
 import ittalents.workplan.model.exception.WorkPlanDAOException;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,16 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Issue
+ * Servlet implementation class CommentServlet
  */
-@WebServlet("/Issue")
-public class Issue extends HttpServlet {
+@WebServlet("/CommentServlet")
+public class CommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Issue() {
+	public CommentServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -39,28 +38,17 @@ public class Issue extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
-			Activity activity = IActivityDAO.getDAO("db").getActivityByID(
-					Integer.parseInt(request.getParameter("id")));
-			request.getSession().setAttribute("activity", activity);
-			if (activity.getAssigneeID() > 0) {
-				request.getSession().setAttribute(
-						"assignee",
-						IUserDAO.getDAO("db")
-								.getUserById(activity.getAssigneeID())
-								.getFullName());
-			}
-			request.getSession().setAttribute(
-					"reporter",
-					IUserDAO.getDAO("db").getUserById(activity.getReportedID())
-							.getFullName());
-			System.out.println(IUserDAO.getDAO("db")
-					.getUserById(activity.getReportedID()).getFullName());
-			
-		} catch (WorkPlanDAOException | DBException e) {
+			Map<Comment, User> comments = ICommentDAO.getDAO("db")
+					.getAllCommentsForActivity(
+							((Activity) request.getSession().getAttribute(
+									"activity")).getId());
+			request.getSession().setAttribute("comments", comments);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("./IssueAll.jsp").forward(request,
-				response);
+		response.sendRedirect("./IssueComments.jsp");
+
 	}
 
 	/**
@@ -69,7 +57,18 @@ public class Issue extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		int userID = ((User) request.getSession().getAttribute("user")).getId();
+		int activityID = ((Activity) (request.getSession()
+				.getAttribute("activity"))).getId();
+		Comment comment = new Comment(request.getParameter("commentContent"),
+				activityID, userID);
+		try {
+			ICommentDAO.getDAO("db").addComment(comment);
+		} catch (WorkPlanDAOException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		doGet(request, response);
 	}
 
 }

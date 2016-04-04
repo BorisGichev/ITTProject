@@ -167,7 +167,8 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 	}
 
 	@Override
-	public List<Activity> getActivitiesNotInSprint(Integer projectID) {
+	public List<Activity> getActivitiesNotInSprint(Integer projectID)
+			throws DBException {
 		List<Activity> activitiesNotInSprint = new ArrayList<Activity>();
 		try {
 			for (Activity activity : IActivityDAO.getDAO("db")
@@ -179,12 +180,15 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 		} catch (UnsupportedDataTypeException | DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DBException(
+					"Cannot get activities not in sprint right now!Try again later!");
 		}
 		return activitiesNotInSprint;
 	}
 
-	public List<Activity> getAllActivitiesWithStatus(ActivityStatus activityStatus,
-			int sprintID) throws DBException, WorkPlanDAOException {
+	public List<Activity> getAllActivitiesWithStatus(
+			ActivityStatus activityStatus, int sprintID) throws DBException,
+			WorkPlanDAOException {
 		List<Activity> getAllActivitiesWithStatusInSprint = new ArrayList<Activity>();
 
 		PreparedStatement ps;
@@ -193,10 +197,10 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 					.prepareStatement(
 							"Select  activity_id from activities where status=? AND sprint_id=?;");
 			if (activityStatus == ActivityStatus.ToDo) {
-				ps.setString(1, "To do");
+				ps.setString(1, "Todo");
 			}
 			if (activityStatus == ActivityStatus.InProgress) {
-				ps.setString(1, "In Progress");
+				ps.setString(1, "InProgress");
 			}
 			if (activityStatus == ActivityStatus.Done) {
 				ps.setString(1, "Done");
@@ -210,9 +214,29 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DBException(
+					" cannot get all activities with status right now!Try again later!");
 		}
 
 		return getAllActivitiesWithStatusInSprint;
+	}
+
+	public void updateStatus(ActivityStatus status, int activityID)
+			throws DBException {
+		PreparedStatement ps;
+		try {
+			ps = getCon().prepareStatement(
+					"UPDATE activities set status=? where activity_id=?;");
+			ps.setString(1, status.toString());
+			ps.setInt(2, activityID);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DBException(
+					"cannot update activity right now !Try again later!");
+		}
+
 	}
 
 }

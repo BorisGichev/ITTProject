@@ -46,7 +46,7 @@ public class CreateSprint extends HttpServlet {
 					ISprintDAO.getDAO("db").addSprint(sprint));
 			request.getSession().setAttribute("listWithActivitiesInThisSprint",
 					null);
-			// jstl doesnt throw nullpointer in case of iterating over null
+			// jstl doesnt throw nullpointer in case of null.something
 			request.getSession().setAttribute("sprint", sprintWithId);
 		} catch (WorkPlanDAOException | DBException e) {
 			// TODO Auto-generated catch block

@@ -10,7 +10,7 @@ public interface IOrganizationDAO {
 
 	public int addOrganization(Organization organization) throws WorkPlanDAOException, DBException;
 
-	public static IOrganizationDAO getDAO(String storage) throws UnsupportedDataTypeException {
+	public static OrganizationDAO getDAO(String storage) throws UnsupportedDataTypeException {
 		if (storage.equalsIgnoreCase("db")) {
 			return new OrganizationDAO();
 		}

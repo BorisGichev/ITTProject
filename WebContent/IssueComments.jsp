@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -45,15 +46,25 @@
 
 				</div>
 				<hr />
-				<a href="#Foo" class="btn btn-default" data-toggle="collapse">Comment</a>
+				<a href="#Foo" class="btn btn-default" data-toggle="collapse">Add
+					Comment</a>
 				<div class="row">
 					<div id="Foo" class="collapse">
-						<form action="" method="POST">
+						<form action="./CommentServlet" method="POST">
 							<textarea rows="10" cols="80" name="commentContent"
 								placeholder="Add your comment here..."></textarea>
-							<input type="submit" value="post!" />
+							<input type="submit" value="post!" class="btn btn-warning" />
 						</form>
 					</div>
+				</div>
+				<div class="row">
+					<c:forEach var="commentUserEntry" items="${sessionScope.comments}">
+				${commentUserEntry.value.fullName}
+				${commentUserEntry.key.createdOn}
+				<br />
+				${commentUserEntry.key.text}
+				<hr />
+					</c:forEach>
 				</div>
 			</div>
 		</div>

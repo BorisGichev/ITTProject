@@ -35,7 +35,7 @@ public interface IActivityDAO {
 	public void setSprint(Integer activityID, Integer sprintID)
 			throws WorkPlanDAOException, DBException;
 
-	public List<Activity> getActivitiesNotInSprint(Integer projectID);
+	public List<Activity> getActivitiesNotInSprint(Integer projectID) throws DBException;
 
 	public List<Activity> getAllActivitiesWithStatus(ActivityStatus activityType,
 			int sprintID) throws DBException, WorkPlanDAOException;

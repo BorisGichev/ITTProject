@@ -50,14 +50,16 @@ hr {
 					<form action="#" method="get" style="display: inline">
 						<button class="btn btn-default">Assign</button>
 					</form>
-					<form action="#" method="get" style="display: inline">
-						<button class="btn btn-default">To Do</button>
+					<form action="./StatusServlet" method="get" style="display: inline">
+						<button class="btn btn-default" value="ToDo" name="status">To
+							Do</button>
 					</form>
-					<form action="#" method="get" style="display: inline">
-						<button class="btn btn-default">In Progress</button>
+					<form action="./StatusServlet" method="get" style="display: inline">
+						<button class="btn btn-default" value="InProgress" name="status">In
+							Progress</button>
 					</form>
-					<form action="#" method="get" style="display: inline">
-						<button class="btn btn-default">Done</button>
+					<form action="./StatusServlet" method="get" style="display: inline">
+						<button class="btn btn-default" value="Done" name="status">Done</button>
 					</form>
 					<div class="row">
 						<!-- Horizontal  rule  start-->

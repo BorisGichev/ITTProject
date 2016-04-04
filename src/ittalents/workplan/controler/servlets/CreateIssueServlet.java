@@ -61,7 +61,7 @@ public class CreateIssueServlet extends HttpServlet {
 		User user = (User) req.getSession().getAttribute("user");
 		// to repair that "To do" in costructor
 		Activity activity = new Activity(req.getParameter("summary"),
-				user.getId(), "To do", req.getParameter("issueType"), (int) req
+				user.getId(), "Todo", req.getParameter("issueType"), (int) req
 						.getSession().getAttribute("projectID"));
 		try {
 			Integer activityID = IActivityDAO.getDAO("db")

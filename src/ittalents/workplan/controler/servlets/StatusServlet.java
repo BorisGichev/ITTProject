@@ -1,15 +1,12 @@
 package ittalents.workplan.controler.servlets;
 
+import ittalents.workplan.model.DAO.ActivityStatus;
 import ittalents.workplan.model.DAO.IActivityDAO;
-import ittalents.workplan.model.DAO.ICommentDAO;
-import ittalents.workplan.model.DAO.IUserDAO;
 import ittalents.workplan.model.POJO.Activity;
-import ittalents.workplan.model.POJO.Comment;
 import ittalents.workplan.model.exception.DBException;
 import ittalents.workplan.model.exception.WorkPlanDAOException;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,16 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Issue
+ * Servlet implementation class StatusServlet
  */
-@WebServlet("/Issue")
-public class Issue extends HttpServlet {
+@WebServlet("/StatusServlet")
+public class StatusServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Issue() {
+	public StatusServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -38,29 +35,21 @@ public class Issue extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		String status = request.getParameter("status");
+		Activity activity = ((Activity) request.getSession().getAttribute(
+				"activity"));
 		try {
-			Activity activity = IActivityDAO.getDAO("db").getActivityByID(
-					Integer.parseInt(request.getParameter("id")));
-			request.getSession().setAttribute("activity", activity);
-			if (activity.getAssigneeID() > 0) {
-				request.getSession().setAttribute(
-						"assignee",
-						IUserDAO.getDAO("db")
-								.getUserById(activity.getAssigneeID())
-								.getFullName());
-			}
-			request.getSession().setAttribute(
-					"reporter",
-					IUserDAO.getDAO("db").getUserById(activity.getReportedID())
-							.getFullName());
-			System.out.println(IUserDAO.getDAO("db")
-					.getUserById(activity.getReportedID()).getFullName());
-			
-		} catch (WorkPlanDAOException | DBException e) {
+			IActivityDAO.getDAO("db").updateStatus(
+					ActivityStatus.valueOf(status), activity.getId());
+			Activity updatedActivity = IActivityDAO.getDAO("db")
+					.getActivityByID(activity.getId());
+			request.getSession().setAttribute("activity", updatedActivity);
+
+		} catch (DBException | WorkPlanDAOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("./IssueAll.jsp").forward(request,
-				response);
+		response.sendRedirect("./IssueAll.jsp");
 	}
 
 	/**
