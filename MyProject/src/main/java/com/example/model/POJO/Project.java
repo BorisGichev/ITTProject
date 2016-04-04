@@ -7,7 +7,7 @@ public class Project {
 	private Integer organizationID;
 	private String key;
 	private Integer projectLeaderID;
-	private Integer issueCount;
+	private Integer issueCount=0;
 
 	public Project() {
 

@@ -52,12 +52,21 @@
 							type </label>
 						<div class="col-md-9">
 							<spring:select name="type" path="type" class="form-control">
+								<option value="notype"></option>
 								<option value="Task">Task</option>
 								<option value="Sub-Task">Sub-Task</option>
 								<option value="Bug">Bug</option>
 								<option value="Story">Story</option>
 								<option value="Epic">Epic</option>
 							</spring:select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="firstname" class="col-md-3 control-label">Estimate
+							in hours </label>
+						<div class="col-md-9">
+							<spring:input type="double" class="form-control" path="estimate" />
 						</div>
 					</div>
 
@@ -73,9 +82,14 @@
 						<label for="firstname" class="col-md-3 control-label">Reporter
 						</label>
 						<div class="col-md-9">
-							<spring:select name="reporter" path="reportedID" class="form-control">
-								<c:forEach var="user" items="${usersByOrg}">
-									<option value="${user.id}">${user.username}</option>
+							<spring:select name="reporter" path="reportedID"
+								class="form-control">
+								<option value="${user.id}">${user.username} (You)</option>
+
+								<c:forEach var="user2" items="${usersByOrg}">
+									<c:if test="${user.id!=user2.id }">
+										<option value="${user2.id}">${user2.username}</option>
+									</c:if>
 								</c:forEach>
 							</spring:select>
 						</div>
@@ -85,17 +99,19 @@
 						<label for="summary" class="form-control"
 							class="col-md-3 control-label"> Description </label>
 
-						<spring:textarea name="description" path="description" class="form-control" rows="5"
-							cols="15"></spring:textarea>
+						<spring:textarea name="description" path="description"
+							class="form-control" rows="5" cols="15"></spring:textarea>
 					</div>
 
 					<div class="form-group">
 						<label for="firstname" class="col-md-3 control-label">Priority
 						</label>
 						<div class="col-md-9">
-							<spring:select name="priority" path="prioriy" class="form-control">
-								<option value="4">Highest</option>
-								<option value="3">High</option>
+							<spring:select name="priority" path="prioriy"
+								class="form-control">
+								<option value="3">Normal</option>
+								<option value="4">High</option>
+								<option value="5">Highest</option>
 								<option value="2">Low</option>
 								<option value="1">Lowest</option>
 							</spring:select>
@@ -107,7 +123,9 @@
 						<label for="firstname" class="col-md-3 control-label">Type
 							of the link for the linked issue </label>
 						<div class="col-md-9">
-							<spring:select name="linktype" path="connectedType" class="form-control">
+							<spring:select name="linktype" path="connectedType"
+								class="form-control">
+								<option value="nolinktype"></option>
 								<option value="Blocks">Blocks</option>
 								<option value="Is blocked by">Is blocked by</option>
 								<option value="Duplicates">Duplicates</option>
@@ -122,7 +140,10 @@
 						<label for="firstname" class="col-md-3 control-label">Linked
 							issue </label>
 						<div class="col-md-9">
-							<spring:select name="assignee"  path="connectedToID" class="form-control">
+							<spring:select name="assignee" path="connectedToID"
+								class="form-control">
+
+								<option value="0"></option>
 								<c:forEach var="issue" items="${issuesForProject}">
 									<option value="${issue.id}">${issue.summary}</option>
 								</c:forEach>
@@ -134,9 +155,15 @@
 						<label for="firstname" class="col-md-3 control-label">Assignee
 						</label>
 						<div class="col-md-9">
-							<spring:select name="assignee"  path="assigneeID" class="form-control">
-								<c:forEach var="user" items="${usersByOrg}">
-									<option value="${user.id}">${user.username}</option>
+
+							<spring:select name="assignee" path="assigneeID"
+								class="form-control">
+								<option value="${user.id}">${user.username} (You)</option>
+
+								<c:forEach var="user2" items="${usersByOrg}">
+									<c:if test="${user.id!=user2.id }">
+										<option value="${user2.id}">${user2.username}</option>
+									</c:if>
 								</c:forEach>
 							</spring:select>
 						</div>
@@ -146,7 +173,8 @@
 						<label for="firstname" class="col-md-3 control-label">Sprint
 						</label>
 						<div class="col-md-9">
-							<spring:select name="sprint"  path="sprintID" class="form-control">
+							<spring:select name="sprintId" path="sprintID" class="form-control">
+								<option value="0"></option>
 								<c:forEach var="sprint" items="${sprintsForProject}">
 									<option value="${sprint.id}">${sprint.name}</option>
 								</c:forEach>

@@ -190,6 +190,8 @@ public class ProfileUpdateServlet extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				request.setAttribute("errorMessage", "Avatar succesfully updated");
+				dispatcher.forward(request, response);
 				return;
 
 			}

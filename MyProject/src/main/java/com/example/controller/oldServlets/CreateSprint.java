@@ -1,14 +1,12 @@
 package com.example.controller.oldServlets;
 
 import com.example.model.DAO.ISprintDAO;
-import com.example.model.POJO.Activity;
 import com.example.model.POJO.Project;
 import com.example.model.POJO.Sprint;
 import com.example.model.exception.DBException;
 import com.example.model.exception.WorkPlanDAOException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,36 +56,4 @@ public class CreateSprint extends HttpServlet {
 				response);
 		;
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	
-	
-	// protected void doPost(HttpServletRequest request,
-	// HttpServletResponse response) throws ServletException, IOException {
-	// try {
-	// IActivityDAO.getDAO("db").setSprint(
-	// Integer.parseInt(request.getParameter("activityID")),
-	// ((Sprint) request.getSession().getAttribute("sprint"))
-	// .getId());
-	//
-	// List<Activity> activitiesNotInSprint = IActivityDAO.getDAO("db")
-	// .getActivitiesNotInSprint(
-	// (Integer) request.getSession().getAttribute(
-	// "projectID"));
-	//
-	// request.getSession().setAttribute("activitiesNotInSprint",
-	// activitiesNotInSprint);
-	//
-	// } catch (WorkPlanDAOException | DBException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	//
-	// }
-	//
-	// request.getRequestDispatcher("./createsprint.jsp").forward(request,
-	// response);
-	// }
 }

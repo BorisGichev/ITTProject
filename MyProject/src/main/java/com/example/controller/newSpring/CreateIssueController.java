@@ -20,6 +20,7 @@ import com.example.model.POJO.Activity;
 import com.example.model.POJO.Project;
 import com.example.model.POJO.User;
 import com.example.model.exception.DBException;
+import com.example.model.exception.WorkPlanDAOException;
 
 @SessionAttributes({ "project", "user" })
 @Controller
@@ -27,7 +28,6 @@ public class CreateIssueController {
 
 	@RequestMapping(value = "/CreateIssue", method = RequestMethod.GET)
 	public String goToCreateIssue(Model model,@ModelAttribute("user") User user,@ModelAttribute("project") Project project) {
-	
 		try {
 			model.addAttribute("projects", IProjectDAO.getDAO("db").getAllProjectsByOrg(user.getOrganizationId()));
 		} catch (DBException | UnsupportedDataTypeException e) {
@@ -63,11 +63,28 @@ public class CreateIssueController {
 	}
 	
 	@RequestMapping(value = "/CreateIssue", method = RequestMethod.POST)
-	public String createIssueInDb(Model model,@ModelAttribute("user") User user,@ModelAttribute("project") Project project,
+	public String createIssueInDb(Model model,@ModelAttribute("sprintId") String sprintId,@ModelAttribute("user") User user,@ModelAttribute("project") Project project,	
 			@ModelAttribute ("issue") Activity issue) {
+		
+		System.out.println(sprintId);
+		try {
+			project=IProjectDAO.getDAO("db").incrementIssuecount(project);
+		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(project);
 		
+		issue.setIssueKey(project.getKey()+"-"+project.getIssueCount());
+		issue.setProjectID(project.getId());
 		System.out.println(issue);
+		
+		try {
+			IActivityDAO.getDAO("db").addActivity(issue);
+		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 		return "redirect:ProjectBoard";
 	}

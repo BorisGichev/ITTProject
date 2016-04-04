@@ -40,4 +40,6 @@ public interface IActivityDAO {
 
 	public List<Activity> getAllActivitiesWithStatus(ActivityStatus activityType,
 			int sprintID) throws DBException, WorkPlanDAOException;
+
+	void updateStatus(ActivityStatus status, int activityID) throws DBException;
 }

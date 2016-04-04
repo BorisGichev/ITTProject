@@ -15,7 +15,7 @@ import javax.activation.UnsupportedDataTypeException;
 
 public class ProjectDAO extends AbstractDBConnDAO implements IProjectDAO {
 
-	private static final String INSERT_PROJECT = "INSERT into projects values(null,?,?,?,?);";
+	private static final String INSERT_PROJECT = "INSERT into projects values(null,?,?,?,?,?);";
 	private static final String SELECT_USERS_FOR_PROJECT = "Select id_user from users_projects where id_user_project =?;";
 	private static final String SELECT_PROJECTS_FOR_ORGANIZATION = "select project_id from projects where organization_id=? order by name;";
 	private static final String SELECT_PROJECT_BY_ID = "select * from projects where project_id=?;";
@@ -31,6 +31,8 @@ public class ProjectDAO extends AbstractDBConnDAO implements IProjectDAO {
 			ps.setInt(2, project.getOrganizationID());
 			ps.setString(3, project.getKey());
 			ps.setInt(4, project.getProjectLeaderID());
+			ps.setInt(5, project.getIssueCount());
+			
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();

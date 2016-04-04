@@ -8,6 +8,7 @@ import com.example.model.exception.WorkPlanDAOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,23 +16,46 @@ import java.util.List;
 import javax.activation.UnsupportedDataTypeException;
 
 public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
-	private static final String SELECT_ACTIVITY_BY_ASSIGNEE_ID = "SELECT * from activities where assignee_id=?";
+	private static final String UPDATE_ACTIVITIES_STATUS = "UPDATE activities set status=? where activity_id=?;";
+	private static final String SELECT_ACTIVITIES_BY_STATUS_AND_SPRINT_ID = "Select  activity_id from activities where status=? AND sprint_id=?;";
+	private static final String UPDATE_ACTIVITIES_SET_SPRINT = "Update activities set sprint_id=? where activity_id=?;";
+	private static final String SELECT_ACTIVITIES_BYSPRINT = "Select  activity_id from activities where sprint_id =?;";
+	private static final String SELECT_ACTIVITIES_BY_PROJECT_ID = "SELECT * from activities where project_id=?";
+	private static final String INSERT_INTO_ACTIVITIES = "INSERT into activities (summary,description,issue_key,estimate,reporter_id,assignee_id,`status`,`type`,sprint_id,connected_to_id,project_id,priority,connected_type) values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String SELECT_ACTIVITY_BY_ID = "SELECT * from activities where activity_id=?";
-
+	private static final String SELECT_ACTIVITY_BY_ASSIGNEE_ID = "SELECT * from activities where assignee_id=?";
 	@Override
 	public int addActivity(Activity activity) throws WorkPlanDAOException, DBException {
 		if (activity == null) {
 			throw new WorkPlanDAOException("There is no activity to add!");
 		}
 		try {
-			PreparedStatement ps = getCon().prepareStatement(
-					"INSERT into activities (activity_id,summary,reporter_id,status,type,project_id) values (null,?,?,?,?,?);",
+			PreparedStatement ps = getCon().prepareStatement(INSERT_INTO_ACTIVITIES,
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setString(1, activity.getSummary());
-			ps.setInt(2, activity.getReportedID());
-			ps.setString(3, activity.getStatus());
-			ps.setString(4, activity.getType());
-			ps.setInt(5, activity.getProjectID());
+			ps.setString(2, activity.getDescription());
+			ps.setString(3, activity.getIssueKey());
+			ps.setDouble(4, activity.getEstimate());
+			ps.setInt(5, activity.getReportedID());
+			ps.setInt(6, activity.getAssigneeID());
+			ps.setString(7, activity.getStatus());
+			ps.setString(8, activity.getType());
+			if (activity.getSprintID()!=0) {
+				ps.setInt(9, activity.getSprintID());
+			}
+			if (activity.getSprintID()==0) {
+				ps.setNull(9, Types.INTEGER);
+			}
+			if (activity.getConnectedToID()!=0) {
+				ps.setInt(10, activity.getConnectedToID());
+			}
+			if (activity.getConnectedToID()==0) {
+				ps.setNull(10, Types.INTEGER);
+			}
+			ps.setInt(11, activity.getProjectID());
+			ps.setInt(12, activity.getPrioriy());
+			ps.setString(13, activity.getConnectedType());
+
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
@@ -51,10 +75,10 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 			ps.setInt(1, activityID);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-
+				
 				return new Activity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDouble(5),
 						rs.getTimestamp(6), rs.getTimestamp(7), rs.getInt(8), rs.getInt(9), rs.getString(10),
-						rs.getString(11), rs.getInt(12), rs.getInt(13), rs.getInt(14), rs.getInt(15), rs.getString(15));
+						rs.getString(11), rs.getInt(12), rs.getInt(13), rs.getInt(14), rs.getInt(15), rs.getString(16));
 
 			}
 			throw new WorkPlanDAOException("No such an activity!");
@@ -68,7 +92,7 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 	@Override
 	public List<Activity> getActivitiesByProject(int projectID) throws DBException {
 		try {
-			PreparedStatement ps = getCon().prepareStatement("SELECT * from activities where project_id=?");
+			PreparedStatement ps = getCon().prepareStatement(SELECT_ACTIVITIES_BY_PROJECT_ID);
 			ps.setInt(1, projectID);
 			ResultSet rs = ps.executeQuery();
 			List<Activity> listWithActivities = new LinkedList<Activity>();
@@ -102,12 +126,11 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 	}
 
 	public List<Activity> getAllActivitiesBySprintID(Integer sprintID) throws DBException, WorkPlanDAOException {
-		List<Activity> 
-		activitiesInSprint = new ArrayList<Activity>();
+		List<Activity> activitiesInSprint = new ArrayList<Activity>();
 
 		PreparedStatement ps;
 		try {
-			ps = getCon().prepareStatement("Select  activity_id from activities where sprint_id =?;");
+			ps = getCon().prepareStatement(SELECT_ACTIVITIES_BYSPRINT);
 			ps.setInt(1, sprintID);
 
 			ResultSet rs = ps.executeQuery();
@@ -128,7 +151,7 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 			throw new WorkPlanDAOException("There is no sprint to add to activity!");
 		}
 		try {
-			PreparedStatement ps = getCon().prepareStatement("Update  activities set sprint_id=? where activity_id=?;");
+			PreparedStatement ps = getCon().prepareStatement(UPDATE_ACTIVITIES_SET_SPRINT);
 			ps.setInt(1, sprintID);
 			ps.setInt(2, activityID);
 			ps.executeUpdate();
@@ -161,12 +184,12 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 
 		PreparedStatement ps;
 		try {
-			ps = getCon().prepareStatement("Select  activity_id from activities where status=? AND sprint_id=?;");
+			ps = getCon().prepareStatement(SELECT_ACTIVITIES_BY_STATUS_AND_SPRINT_ID);
 			if (activityStatus == ActivityStatus.ToDo) {
-				ps.setString(1, "To do");
+				ps.setString(1, "Todo");
 			}
 			if (activityStatus == ActivityStatus.InProgress) {
-				ps.setString(1, "In Progress");
+				ps.setString(1, "InProgress");
 			}
 			if (activityStatus == ActivityStatus.Done) {
 				ps.setString(1, "Done");
@@ -182,6 +205,24 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 		}
 
 		return getAllActivitiesWithStatusInSprint;
+	}
+	@Override
+	public void updateStatus(ActivityStatus status, int activityID)
+			throws DBException {
+		PreparedStatement ps;
+		try {
+			ps = getCon().prepareStatement(
+					UPDATE_ACTIVITIES_STATUS);
+			ps.setString(1, status.toString());
+			ps.setInt(2, activityID);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DBException(
+					"cannot update activity right now !Try again later!");
+		}
+
 	}
 
 }

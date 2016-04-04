@@ -46,7 +46,7 @@
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-3 control-label">User name</label>
+						<label class="col-md-3 control-label">Project leader</label>
 						<div class="col-md-9">
 							<select name="leader" class="form-control">
 								<c:forEach var="employee" items="${employeesInOrg}">

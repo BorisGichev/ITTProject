@@ -6,9 +6,11 @@ import javax.activation.UnsupportedDataTypeException;
 
 import org.junit.Test;
 
+import com.example.model.DAO.IActivityDAO;
 import com.example.model.DAO.IProjectDAO;
 import com.example.model.DAO.ISprintDAO;
 import com.example.model.DAO.IUserDAO;
+import com.example.model.POJO.Activity;
 import com.example.model.POJO.Project;
 import com.example.model.POJO.Sprint;
 import com.example.model.POJO.User;
@@ -68,15 +70,28 @@ public class DAOTests {
 //		}
 //	}
 	
-	@Test
-	public void CheckIncrementIssueCount()  {
-		Project project=new Project(15, "blaa", 3, "blaa", 8, 0);
-		
-		try {
-			IProjectDAO.getDAO("db").incrementIssuecount(project);
-		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void CheckIncrementIssueCount()  {
+//		Project project=new Project(15, "blaa", 3, "blaa", 8, 0);
+//		
+//		try {
+//			IProjectDAO.getDAO("db").incrementIssuecount(project);
+//		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
+//	@Test
+//	public void CheckIncrementIssueCount()  {
+//		Activity act=null;
+//		try {
+//			act = IActivityDAO.getDAO("db").getActivityByID(14);
+//		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		System.out.println(act);
+//	}
 }

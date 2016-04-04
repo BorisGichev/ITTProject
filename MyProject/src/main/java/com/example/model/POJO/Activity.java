@@ -13,10 +13,10 @@ public class Activity {
 	private Timestamp finishedOn;
 	private int reportedID;
 	private int assigneeID;
-	private String status;
+	private String status=ActivityStatus.ToDo.toString();
 	private String type;
-	private int sprintID;
-	private int connectedToID;
+	private Integer sprintID;
+	private Integer connectedToID;
 	private int projectID;
 	private int prioriy;
 	private String connectedType;
@@ -100,12 +100,12 @@ public class Activity {
 		this.description = description;
 	}
 
-	public String getVersion() {
+	public String getIssueKey() {
 		return issueKey;
 	}
 
-	public void setVersion(String version) {
-		this.issueKey = version;
+	public void setIssueKey(String issueKey) {
+		this.issueKey = issueKey;
 	}
 
 	public double getEstimate() {
@@ -164,23 +164,23 @@ public class Activity {
 		this.type = type;
 	}
 
-	public int getSprintID() {
+	public Integer getSprintID() {
 		return sprintID;
 	}
 
-	public void setSprintID(int sprintID) {
+	public void setSprintID(Integer sprintID) {
 		this.sprintID = sprintID;
 	}
 
-	public int getConnectedToID() {
+	public Integer getConnectedToID() {
 		return connectedToID;
 	}
 
-	public void setConnectedToID(int connectedToID) {
+	public void setConnectedToID(Integer connectedToID) {
 		this.connectedToID = connectedToID;
 	}
 
-	public int getProjectID() {
+	public Integer getProjectID() {
 		return projectID;
 	}
 
@@ -200,6 +200,11 @@ public class Activity {
 		return connectedType;
 	}
 
+
+	public void setConnectedType(String connectedType) {
+		this.connectedType = connectedType;
+	}
+
 	@Override
 	public String toString() {
 		return "Activity [id=" + id + ", summary=" + summary + ", description=" + description + ", issueKey=" + issueKey
@@ -207,10 +212,6 @@ public class Activity {
 				+ reportedID + ", assigneeID=" + assigneeID + ", status=" + status + ", type=" + type + ", sprintID="
 				+ sprintID + ", connectedToID=" + connectedToID + ", projectID=" + projectID + ", prioriy=" + prioriy
 				+ ", connectedType=" + connectedType + "]";
-	}
-
-	public void setConnectedType(String connectedType) {
-		this.connectedType = connectedType;
 	}
 
 }
