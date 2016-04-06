@@ -22,12 +22,12 @@ public class DAOTests {
 	
 
 //	@Test
-//	public void DBConnectionTest() {
+//	public void dBConnectionTest() {
 //		com.example.model.DAO.DBConnection.getInstance();
 //	}
 //	
 //	@Test
-//	public void CheckEmail() throws UnsupportedDataTypeException, DBException {
+//	public void checkEmail() throws UnsupportedDataTypeException, DBException {
 //		System.out.println(IUserDAO.getDAO("db").isThereSuchAUser("drago@abv.bg"));
 //	}
 //	
@@ -82,16 +82,16 @@ public class DAOTests {
 //		}
 //	}
 	
-//	@Test
-//	public void CheckIncrementIssueCount()  {
-//		Activity act=null;
-//		try {
-//			act = IActivityDAO.getDAO("db").getActivityByID(14);
-//		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		System.out.println(act);
-//	}
+	@Test
+	public void CheckIncrementIssueCount()  {
+		Activity act=null;
+		try {
+			act = IActivityDAO.getDAO("db").getActivityByID(37);
+		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(act);
+	}
 }

@@ -32,7 +32,7 @@
 					<form action="./IssueAll" method="get" style="display: inline">
 						<button class="btn btn-primary">All</button>
 					</form>
-					<form action="./CommentServlet" method="post"
+					<form action="./CommentServlet" method="get"
 						style="display: inline">
 						<button class="btn btn-default">Comments</button>
 					</form>

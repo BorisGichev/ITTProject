@@ -53,10 +53,7 @@ public class MoreDetailsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (request.getSession(false) == null) {
-			response.sendRedirect("./");
-			return;
-		}
+		ImageServletFromId.isLogged(request, response);
 		
 		User user = (User) request.getSession().getAttribute("user");
 		String orgName = (request.getParameter("orgName"));

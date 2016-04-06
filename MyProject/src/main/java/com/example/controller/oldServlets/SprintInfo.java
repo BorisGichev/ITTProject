@@ -39,6 +39,9 @@ public class SprintInfo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		ImageServletFromId.isLogged(request, response);
+		
 		Sprint sprint;
 		Project project=(Project) request.getSession().getAttribute("project");
 		
@@ -116,6 +119,7 @@ public class SprintInfo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		ImageServletFromId.isLogged(request, response);
 		try {
 			ISprintDAO.getDAO("db").updateSprintActivity(
 					false,

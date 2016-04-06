@@ -10,10 +10,12 @@ public class Activity {
 	private String issueKey;
 	private double estimate;
 	private Timestamp createdOn;
+	private String createdOnString;
 	private Timestamp finishedOn;
+	private String finishedOnString;
 	private int reportedID;
 	private int assigneeID;
-	private String status=ActivityStatus.ToDo.toString();
+	private String status = ActivityStatus.ToDo.toString();
 	private String type;
 	private Integer sprintID;
 	private Integer connectedToID;
@@ -22,20 +24,23 @@ public class Activity {
 	private String connectedType;
 
 	public Activity() {
-		
+
 	}
-	
-	public Activity(int id, String summary, String description, String version,
-			double estimate, Timestamp createdOn, Timestamp updatedOn,
-			int reporterID, int assigneeID, String status, String type,
-			int sprintID, int connectedToID, int projectID) {
+
+	public Activity(int id, String summary, String description, String version, double estimate, Timestamp createdOn,
+			Timestamp finishedOn, int reporterID, int assigneeID, String status, String type, int sprintID,
+			int connectedToID, int projectID) {
 		this.id = id;
 		this.summary = summary;
 		this.description = description;
 		this.issueKey = version;
 		this.estimate = estimate;
 		this.createdOn = createdOn;
-		this.finishedOn = updatedOn;
+		this.createdOnString = createdOn.toString();
+		this.finishedOn = finishedOn;
+		if (finishedOn != null) {
+			this.finishedOnString = finishedOn.toString();
+		}
 		this.reportedID = reporterID;
 		this.assigneeID = assigneeID;
 		this.status = status;
@@ -45,8 +50,7 @@ public class Activity {
 		this.projectID = projectID;
 	}
 
-	public Activity(String summary, int reporterID, String status, String type,
-			int projectID) {
+	public Activity(String summary, int reporterID, String status, String type, int projectID) {
 		this.summary = summary;
 		this.reportedID = reporterID;
 		this.status = status;
@@ -64,7 +68,11 @@ public class Activity {
 		this.issueKey = issueKey;
 		this.estimate = estimate;
 		this.createdOn = createdOn;
+		this.createdOnString = createdOn.toString();
 		this.finishedOn = finishedOn;
+		if (finishedOn != null) {
+			this.finishedOnString = finishedOn.toString();
+		}
 		this.reportedID = reportedID;
 		this.assigneeID = assigneeID;
 		this.status = status;
@@ -74,6 +82,30 @@ public class Activity {
 		this.projectID = projectID;
 		this.prioriy = prioriy;
 		this.connectedType = connectedType;
+	}
+
+	public String getCreatedOnString() {
+		return createdOnString;
+	}
+
+	public void setCreatedOnString(String createdOnString) {
+		this.createdOnString = createdOnString;
+	}
+
+	public Timestamp getFinishedOn() {
+		return finishedOn;
+	}
+
+	public void setFinishedOn(Timestamp finishedOn) {
+		this.finishedOn = finishedOn;
+	}
+
+	public String getFinishedOnString() {
+		return finishedOnString;
+	}
+
+	public void setFinishedOnString(String finishedOnString) {
+		this.finishedOnString = finishedOnString;
 	}
 
 	public int getId() {
@@ -196,22 +228,22 @@ public class Activity {
 		this.prioriy = prioriy;
 	}
 
+	@Override
+	public String toString() {
+		return "Activity [id=" + id + ", summary=" + summary + ", description=" + description + ", issueKey=" + issueKey
+				+ ", estimate=" + estimate + ", createdOn=" + createdOn + ", createdOnString=" + createdOnString
+				+ ", finishedOn=" + finishedOn + ", finishedOnString=" + finishedOnString + ", reportedID=" + reportedID
+				+ ", assigneeID=" + assigneeID + ", status=" + status + ", type=" + type + ", sprintID=" + sprintID
+				+ ", connectedToID=" + connectedToID + ", projectID=" + projectID + ", prioriy=" + prioriy
+				+ ", connectedType=" + connectedType + "]";
+	}
+
 	public String getConnectedType() {
 		return connectedType;
 	}
 
-
 	public void setConnectedType(String connectedType) {
 		this.connectedType = connectedType;
-	}
-
-	@Override
-	public String toString() {
-		return "Activity [id=" + id + ", summary=" + summary + ", description=" + description + ", issueKey=" + issueKey
-				+ ", estimate=" + estimate + ", createdOn=" + createdOn + ", finishedOn=" + finishedOn + ", reportedID="
-				+ reportedID + ", assigneeID=" + assigneeID + ", status=" + status + ", type=" + type + ", sprintID="
-				+ sprintID + ", connectedToID=" + connectedToID + ", projectID=" + projectID + ", prioriy=" + prioriy
-				+ ", connectedType=" + connectedType + "]";
 	}
 
 }

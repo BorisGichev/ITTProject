@@ -18,7 +18,7 @@
 <!-- Custom CSS -->
 <link href="bootstrap/css/simple-sidebar.css" rel="stylesheet">
 
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 <style type="text/css">
@@ -39,14 +39,20 @@ hr {
 
 	<div class="container" style="width: 1000px">
 		<div class="row">
+			<div class="row">
+				<h4>
+					<a href="./SelectProject?projectId=${activity.projectID}">${projecName}</a>/<a
+						href="./Issue?id=${activity.id}">${activity.issueKey}</a>
+				</h4>
+			</div>
 			<div class="row" align="center">
-				<h3>${sessionScope.activity.summary}</h3>
+				<h3>${activity.summary}</h3>
 			</div>
 			<div class="col-lg-8 col-md-6">
 
 				<div class="col-lg-12 col-md-12">
-					<form action="#" method="get" style="display: inline">
-						<button class="btn btn-default">Edit</button>
+					<form action="./UpdateIssue" method="get" style="display: inline">
+						<button class="btn btn-default"  name = "issueId" value="${activity.id}">Edit</button>
 					</form>
 
 					<form action="#" method="get" style="display: inline">
@@ -65,8 +71,8 @@ hr {
 					</form>
 					<div class="row">
 						<!-- Horizontal  rule  start-->
-						
-						
+
+
 						<div style="width: 100%; text-align: center;">
 							<span style="width: 45%; display: inline; float: left;"><hr /></span>
 							<span style="display: inline; float: center;"><b>Details</b></span>
@@ -75,26 +81,41 @@ hr {
 
 						<!-- Horizontal  rule  end-->
 						<div class="row">
-							<div class="col-lg-3 col-md-6" align="left">Type:</div>
-							<div class="col-lg-3 col-md-6" align="left">${sessionScope.activity.type}</div>
+							<div class="col-lg-3 col-md-6" align="left">Type of Issue:</div>
+							<div class="col-lg-3 col-md-6" align="left">${activity.type}</div>
 							<div class="col-lg-3 col-md-6" align="left">Status:</div>
-							<div class="col-lg-3 col-md-6" align="left">${sessionScope.activity.status}</div>
+							<div class="col-lg-3 col-md-6" align="left">${activity.status}</div>
 						</div>
 						<div class="row">
-							<div class="col-lg-3 col-md-6" align="left">Type:</div>
-							<div class="col-lg-3 col-md-6" align="left">#</div>
-							<div class="col-lg-3 col-md-6" align="left">Type:</div>
-							<div class="col-lg-3 col-md-6" align="left">#</div>
+							<div class="col-lg-3 col-md-6" align="left">Estimate in
+								hours:</div>
+							<div class="col-lg-3 col-md-6" align="left">${activity.estimate}</div>
+							<div class="col-lg-3 col-md-6" align="left">In Sprint:</div>
+							<div class="col-lg-3 col-md-6" align="left">
+								<c:if test="${activity.sprintID!=0&& not empty sprintName}">
+									<a href="./SprintInfo?id=${activity.sprintID}">${sprintName}</a>
+								</c:if>
+							</div>
 						</div>
 						<div class="row">
-							<div class="col-lg-3 col-md-6" align="left">Type:</div>
+							<div class="col-lg-3 col-md-6" align="left">Working hours
+								so far:</div>
 							<div class="col-lg-3 col-md-6" align="left">#</div>
-							<div class="col-lg-3 col-md-6" align="left">Type:</div>
-							<div class="col-lg-3 col-md-6" align="left">#</div>
+							<div class="col-lg-3 col-md-6" align="left">Priority</div>
+							<div class="col-lg-3 col-md-6" align="left">${priorityName}</div>
 						</div>
 						<div class="row">
-							<div class="col-lg-3 col-md-6" align="left">Type:</div>
-							<div class="col-lg-3 col-md-6" align="left">#</div>
+							<div class="col-lg-3 col-md-6" align="left">Linked Issue:</div>
+							<div class="col-lg-3 col-md-6" align="left">
+								<c:if
+									test="${activity.connectedToID!=0&& not empty connectedKey}">
+									<a href="./Issue?id=${activity.connectedToID}">${connectedKey}</a>
+								</c:if>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-6" align="left">Link type:</div>
+							<div class="col-lg-3 col-md-6" align="left">${activity.connectedType}</div>
 						</div>
 					</div>
 					<div class="row">
@@ -105,16 +126,6 @@ hr {
 							<span style="width: 42%; display: inline; float: right;"><hr /></span>
 						</div>
 						${sessionScope.activity.description}
-						<!-- Horizontal  rule  end-->
-
-					</div>
-					<div class="row">
-						<!-- Horizontal  rule  start-->
-						<div style="width: 100%; text-align: center;">
-							<span style="width: 42%; display: inline; float: left;"><hr /></span>
-							<span style="display: inline; float: center;"><b>Attachments</b></span>
-							<span style="width: 42%; display: inline; float: right;"><hr /></span>
-						</div>
 						<!-- Horizontal  rule  end-->
 
 					</div>
@@ -145,11 +156,11 @@ hr {
 						<!-- Horizontal  rule  end-->
 						<div class="row">
 							<div class="col-lg-6 col-md-6" align="left">Assignee:</div>
-							<div class="col-lg-6 col-md-6" align="left">${sessionScope.assignee}</div>
+							<div class="col-lg-6 col-md-6" align="left">${assignee}</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
-							<div class="col-lg-6 col-md-6" align="left">${sessionScope.reporter}</div>
+							<div class="col-lg-6 col-md-6" align="left">${reporter}</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-6 col-md-6" align="left">Reporter:</div>
@@ -163,17 +174,20 @@ hr {
 							<!-- Horizontal  rule  start-->
 							<div style="width: 100%; text-align: center;">
 								<span style="width: 110px; display: inline; float: left;"><hr /></span>
-								<span style="display: inline; float: center;"><b>Date</b></span>
+								<span style="display: inline; float: center;"><b>Date Created</b></span>
 								<span style="width: 110px; display: inline; float: right;"><hr /></span>
 							</div>
 
+							<div class="row">
+								<div class="col-lg-6 col-md-6" align="left">${activity.createdOnString}</div>
+							</div>
 							<!-- Horizontal  rule  end-->
 						</div>
 						<div class="row">
 							<!-- Horizontal  rule  start-->
 							<div style="width: 100%; text-align: center;">
 								<span style="width: 100px; display: inline; float: left;"><hr /></span>
-								<span style="display: inline; float: center;"><b>Date</b></span>
+								<span style="display: inline; float: center;"><b>Date Finished</b></span>
 								<span style="width: 100px; display: inline; float: right;"><hr /></span>
 							</div>
 

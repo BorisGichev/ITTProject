@@ -41,7 +41,7 @@ public class ProjectBoard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		ImageServletFromId.isLogged(request, response);
 		Project project = (Project) (request.getSession().getAttribute("project"));
 
 		try {

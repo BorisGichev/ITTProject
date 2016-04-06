@@ -46,10 +46,7 @@ public class ProfileUpdateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (request.getSession(false) == null) {
-			response.sendRedirect("./");
-			return;
-		}
+		ImageServletFromId.isLogged(request, response);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("./WEB-INF/views/jsp/profilePage.jsp");
 		dispatcher.forward(request, response);
@@ -61,10 +58,7 @@ public class ProfileUpdateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (request.getSession(false) == null) {
-			response.sendRedirect("./");
-			return;
-		}
+		ImageServletFromId.isLogged(request, response);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("./WEB-INF/views/jsp/profilePage.jsp");
 		User user = (User) request.getSession().getAttribute("user");

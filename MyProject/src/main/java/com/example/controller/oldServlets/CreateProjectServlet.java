@@ -38,6 +38,9 @@ public class CreateProjectServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		ImageServletFromId.isLogged(request, response);
+		
 		if (request.getSession(false) == null) {
 			response.sendRedirect("./");
 			return;
@@ -57,6 +60,7 @@ public class CreateProjectServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		ImageServletFromId.isLogged(req, resp);
 		User user = (User) req.getSession().getAttribute("user");
 		
 		
@@ -71,6 +75,14 @@ public class CreateProjectServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		try {
+			req.getSession().setAttribute("projects", IProjectDAO.getDAO("db").getAllProjectsByOrg(user.getOrganizationId()));
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 		resp.sendRedirect("./ProjectBoard");
 	}
 }

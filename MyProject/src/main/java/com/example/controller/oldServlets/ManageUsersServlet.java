@@ -27,10 +27,7 @@ public class ManageUsersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		if (request.getSession(false) == null) {
-			response.sendRedirect("./");
-			return;
-		}
+		ImageServletFromId.isLogged(request, response);
 		
 		User user = (User) request.getSession().getAttribute("user");
 		List<User> usersByOrg=null;

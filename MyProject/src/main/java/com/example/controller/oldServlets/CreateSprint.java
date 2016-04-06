@@ -35,6 +35,8 @@ public class CreateSprint extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		ImageServletFromId.isLogged(request, response);
+		
 		Project project = (Project) request.getSession().getAttribute("project");
 		Sprint sprint = new Sprint();
 		sprint.setName(request.getParameter("sprintName"));

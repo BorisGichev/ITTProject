@@ -1,6 +1,7 @@
 <%@ taglib prefix="trans" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring"	uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring"
+	uri="http://www.springframework.org/tags/form"%>
 
 <!-- Sidebar -->
 <div id="sidebar-wrapper">
@@ -39,6 +40,13 @@
 
 		<li class="sidebar-brand"><a href="./UpdateProfile"><c:out
 					value="${user.fullname}" /> </a></li>
+
+		<div align="center">
+
+			<font color="white">Current Project</font>
+
+		</div>
+		<li class="sidebar-brand"><a href="./SelectProject?projectId=${project.id}">${project.name}</a></li>
 
 
 		<li><a href="#"><trans:message code="sidebar.backlog" /></a></li>

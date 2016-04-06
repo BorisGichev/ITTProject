@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,18 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.model.DAO.INFO;
+import com.example.model.DAO.IUserDAO;
+import com.example.model.POJO.User;
+import com.example.model.exception.DBException;
 
 /**
  * Servlet implementation class IamageServlet
  */
-@WebServlet("/ImageServlet")
-public class ImageServlet extends HttpServlet {
+@WebServlet("/ImageServletFromID")
+public class ImageServletFromId extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ImageServlet() {
+    public ImageServletFromId() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,16 +37,25 @@ public class ImageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ImageServletFromId.isLogged(request, response);
-		if (request.getSession(false) == null) {
-			response.sendRedirect("./");
-			return;
-		}
+		
+		
+		
+		isLogged(request, response);
+		
 		
 		response.setContentType("image/jpeg");
-		String path = request.getParameter("path");
+		Integer userId = Integer.parseInt(request.getParameter("userId"));
 		
-		String pathToWeb = INFO.IMAGES_PATH+File.separator+path;
+		User user=null;
+		
+		try {
+			user=IUserDAO.getDAO("db").getUserById(userId);
+		} catch (DBException e) {
+			e.printStackTrace();
+		}
+		
+		
+		String pathToWeb = INFO.IMAGES_PATH+File.separator+user.getAvatarPath();
 		
 		
 		File f = new File(pathToWeb);
@@ -61,6 +74,28 @@ public class ImageServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+
+	public static void isLogged(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		User checkUser=(User)(request.getSession().getAttribute("user"));
+		System.out.println(checkUser);
+		
+		
+		if (request.getSession(false) == null||checkUser==null||checkUser.getPassword()==null||checkUser.getEmail()==null) {
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("./normalLogin");
+			
+			try {
+				dispatcher.forward(request, response);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			response.sendRedirect("./normalLogin");
+			return;
+		}
+		
+		
 	}
 
 }

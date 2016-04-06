@@ -22,7 +22,7 @@ import com.example.model.POJO.User;
 import com.example.model.exception.DBException;
 import com.example.model.exception.WorkPlanDAOException;
 
-@SessionAttributes({ "project", "user" })
+@SessionAttributes({ "project", "user", "projects" })
 @Controller
 public class CreateIssueController {
 
@@ -62,11 +62,63 @@ public class CreateIssueController {
 		return "createIssue";
 	}
 	
+	@RequestMapping(value = "/UpdateIssue", method = RequestMethod.GET)
+	public String goToUpdateIssue(Model model,@ModelAttribute("issueId") Integer issueId,@ModelAttribute("user") User user,@ModelAttribute("project") Project project) {
+		
+		
+		Activity activity=null;
+		try {
+			activity = IActivityDAO.getDAO("db").getActivityByID(issueId);
+		} catch (NumberFormatException | UnsupportedDataTypeException | WorkPlanDAOException | DBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(activity);
+		
+		
+		
+		
+		try {
+			model.addAttribute("projects", IProjectDAO.getDAO("db").getAllProjectsByOrg(user.getOrganizationId()));
+		} catch (DBException | UnsupportedDataTypeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<User> usersByOrg = null;
+		try {
+			usersByOrg=IUserDAO.getDAO("db").getAllUsersForOrganization(user.getOrganizationId());
+			
+			model.addAttribute("usersByOrg",usersByOrg);
+		} catch (SQLException | UnsupportedDataTypeException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			model.addAttribute("issuesForProject", IActivityDAO.getDAO("db").getActivitiesByProject(project.getId()));
+		} catch (UnsupportedDataTypeException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			model.addAttribute("sprintsForProject", ISprintDAO.getDAO("db").getAllSprintByProjectID(project.getId()));
+		} catch (UnsupportedDataTypeException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		model.addAttribute("oldIssue",activity);
+		model.addAttribute("issue",new Activity());
+		return "updateIssue";
+	}
+	
 	@RequestMapping(value = "/CreateIssue", method = RequestMethod.POST)
-	public String createIssueInDb(Model model,@ModelAttribute("sprintId") String sprintId,@ModelAttribute("user") User user,@ModelAttribute("project") Project project,	
+	public String createIssueInDb(Model model,
+			@ModelAttribute("user") User user,@ModelAttribute("project") Project project,	
 			@ModelAttribute ("issue") Activity issue) {
 		
-		System.out.println(sprintId);
 		try {
 			project=IProjectDAO.getDAO("db").incrementIssuecount(project);
 		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
@@ -77,14 +129,14 @@ public class CreateIssueController {
 		
 		issue.setIssueKey(project.getKey()+"-"+project.getIssueCount());
 		issue.setProjectID(project.getId());
-		System.out.println(issue);
 		
 		try {
 			IActivityDAO.getDAO("db").addActivity(issue);
 		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}		
+		
 	
 		return "redirect:ProjectBoard";
 	}

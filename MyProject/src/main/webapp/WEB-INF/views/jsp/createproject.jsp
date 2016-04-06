@@ -50,9 +50,9 @@
 						<div class="col-md-9">
 							<select name="leader" class="form-control">
 								<c:forEach var="employee" items="${employeesInOrg}">
-									<option value="${employee.id}"><c:if
-											test="${sessionScope.user.id==employee.id}">${employee.fullname}(admin)</c:if>
-										<c:if test="${sessionScope.user.id!=employee.id}">${employee.fullname}</c:if></option>
+									<option value="${employee.id}">
+									<c:if test="${sessionScope.user.id==employee.id}">${employee.fullname}(admin)</c:if>
+									<c:if test="${sessionScope.user.id!=employee.id}">${employee.fullname}</c:if></option>
 								</c:forEach>
 							</select>
 						</div>

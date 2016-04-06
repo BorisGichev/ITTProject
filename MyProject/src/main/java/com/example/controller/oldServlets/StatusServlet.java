@@ -33,31 +33,29 @@ public class StatusServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		ImageServletFromId.isLogged(request, response);
 		String status = request.getParameter("status");
-		Activity activity = ((Activity) request.getSession().getAttribute(
-				"activity"));
+		Activity activity = ((Activity) request.getSession().getAttribute("activity"));
 		try {
-			IActivityDAO.getDAO("db").updateStatus(
-					ActivityStatus.valueOf(status), activity.getId());
-			Activity updatedActivity = IActivityDAO.getDAO("db")
-					.getActivityByID(activity.getId());
+			IActivityDAO.getDAO("db").updateStatus(ActivityStatus.valueOf(status), activity.getId());
+			Activity updatedActivity = IActivityDAO.getDAO("db").getActivityByID(activity.getId());
 			request.getSession().setAttribute("activity", updatedActivity);
 
 		} catch (DBException | WorkPlanDAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		response.sendRedirect("./Issue?id="+activity.getId());
+		response.sendRedirect("./Issue?id=" + activity.getId());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 

@@ -38,6 +38,10 @@ public class CommentServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		ImageServletFromId.isLogged(request, response);
+		
+		
 		try {
 			Map<Comment, User> comments = ICommentDAO.getDAO("db")
 					.getAllCommentsForActivity(
@@ -61,6 +65,8 @@ public class CommentServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		ImageServletFromId.isLogged(request, response);
+		
 		int userID = ((User) request.getSession().getAttribute("user")).getId();
 		int activityID = ((Activity) (request.getSession()
 				.getAttribute("activity"))).getId();

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Create issue</title>
+<title>Update issue</title>
 <jsp:include page="homeTrue.jsp"></jsp:include>
 </head>
 <body>
@@ -52,6 +52,7 @@
 							type </label>
 						<div class="col-md-9">
 							<spring:select name="type" path="type" class="form-control">
+								<option value="${oldIssue.type}">${oldIssue.type}</option>
 								<option value="notype"></option>
 								<option value="Task">Task</option>
 								<option value="Sub-Task">Sub-Task</option>
