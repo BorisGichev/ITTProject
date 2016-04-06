@@ -62,11 +62,41 @@ public class CreateIssueController {
 		return "createIssue";
 	}
 	
+	@RequestMapping(value = "/CreateIssue", method = RequestMethod.POST)
+	public String createIssueInDb(Model model,
+			@ModelAttribute("user") User user,@ModelAttribute("project") Project project,	
+			@ModelAttribute ("issue") Activity issue) {
+		
+		try {
+			project=IProjectDAO.getDAO("db").incrementIssuecount(project);
+		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(project);
+		
+		issue.setIssueKey(project.getKey()+"-"+project.getIssueCount());
+		issue.setProjectID(project.getId());
+		
+		try {
+			IActivityDAO.getDAO("db").addActivity(issue);
+		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+	
+		return "redirect:ProjectBoard";
+	}
+
 	@RequestMapping(value = "/UpdateIssue", method = RequestMethod.GET)
-	public String goToUpdateIssue(Model model,@ModelAttribute("issueId") Integer issueId,@ModelAttribute("user") User user,@ModelAttribute("project") Project project) {
+	public String goToUpdateIssue(Model model,@ModelAttribute("issueId") Integer issueId,
+			@ModelAttribute("user") User user, 
+			@ModelAttribute("project") Project project) {
 		
 		
 		Activity activity=null;
+		
 		try {
 			activity = IActivityDAO.getDAO("db").getActivityByID(issueId);
 		} catch (NumberFormatException | UnsupportedDataTypeException | WorkPlanDAOException | DBException e1) {
@@ -110,35 +140,10 @@ public class CreateIssueController {
 		
 		
 		model.addAttribute("oldIssue",activity);
-		model.addAttribute("issue",new Activity());
+		Activity newAct = activity;
+		
+		model.addAttribute("issue",newAct);
 		return "updateIssue";
-	}
-	
-	@RequestMapping(value = "/CreateIssue", method = RequestMethod.POST)
-	public String createIssueInDb(Model model,
-			@ModelAttribute("user") User user,@ModelAttribute("project") Project project,	
-			@ModelAttribute ("issue") Activity issue) {
-		
-		try {
-			project=IProjectDAO.getDAO("db").incrementIssuecount(project);
-		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(project);
-		
-		issue.setIssueKey(project.getKey()+"-"+project.getIssueCount());
-		issue.setProjectID(project.getId());
-		
-		try {
-			IActivityDAO.getDAO("db").addActivity(issue);
-		} catch (UnsupportedDataTypeException | WorkPlanDAOException | DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		
-	
-		return "redirect:ProjectBoard";
 	}
 
 }

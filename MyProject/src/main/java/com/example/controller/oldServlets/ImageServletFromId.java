@@ -37,11 +37,7 @@ public class ImageServletFromId extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		
-		isLogged(request, response);
-		
+				
 		
 		response.setContentType("image/jpeg");
 		Integer userId = Integer.parseInt(request.getParameter("userId"));

@@ -33,11 +33,8 @@ public class ImageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ImageServletFromId.isLogged(request, response);
-		if (request.getSession(false) == null) {
-			response.sendRedirect("./");
-			return;
-		}
+		
+		
 		
 		response.setContentType("image/jpeg");
 		String path = request.getParameter("path");

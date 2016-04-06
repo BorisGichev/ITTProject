@@ -1,6 +1,7 @@
 package com.example.controller.newSpring;
 
 import javax.activation.UnsupportedDataTypeException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +23,10 @@ import com.example.model.exception.WorkPlanDAOException;
 @SessionAttributes({ "project", "user" })
 
 public class SelectProject {
+	
+	
 	@RequestMapping(value = "/SelectProject", method = RequestMethod.GET)
-	public String selectProjectForProjecBoard(Model model, @ModelAttribute("user") User user,
+	public String selectProjectForProjecBoard(Model model,HttpServletRequest request, @ModelAttribute("user") User user,
 			@RequestParam("projectId") Integer projectId) {
 
 		Project project = null;
@@ -43,6 +46,7 @@ public class SelectProject {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		request.getSession().setAttribute("activeSprint", null);
 		model.addAttribute("user", user);
 		model.addAttribute("project", project);
 		return "forward:ProjectBoard";

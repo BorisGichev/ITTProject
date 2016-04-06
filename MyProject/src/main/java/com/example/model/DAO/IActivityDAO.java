@@ -42,4 +42,15 @@ public interface IActivityDAO {
 			int sprintID) throws DBException, WorkPlanDAOException;
 
 	void updateStatus(ActivityStatus status, int activityID) throws DBException;
+
+	List<Activity> getAllActivitiesWithTypeInWholeProject(String type, int projectID)
+			throws DBException, WorkPlanDAOException;
+
+	List<Activity> getAllActivitiesWithStatusInProject(ActivityStatus activityStatus, int projectID)
+			throws DBException, WorkPlanDAOException;
+
+	List<Activity> getActivitiesByAssigneeName(String assignee, int projectID) throws DBException;
+
+	List<Activity> getAllActivitiesContainingComment(String comment, int projectID)
+			throws DBException, WorkPlanDAOException;
 }

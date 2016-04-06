@@ -67,11 +67,18 @@ public class ProjectBoard extends HttpServlet {
 			
 			
 			request.getSession().setAttribute("activitiesNotInSprint", activitiesNotInSprint);
-			// int activeSprint = ISprintDAO.getDAO("db")
-			// .isThereAnActiveSprintInThisProject(
-			// (Integer) request.getSession().getAttribute(
-			// "projectID"));
-			// request.getSession().setAttribute("activeSprint", activeSprint);
+			if (project.getId() > 0
+					// when user log in new session he gets the active sprint
+					// for the project.
+					&& ISprintDAO
+							.getDAO("db")
+							.isThereAnActiveSprintInThisProject(project.getId()) > 0) {
+				Sprint sprint = ISprintDAO.getDAO("db").getSprintById(
+						ISprintDAO.getDAO("db")
+								.isThereAnActiveSprintInThisProject(
+										project.getId()));
+				request.getSession().setAttribute("activeSprint", sprint.getId());
+			}
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

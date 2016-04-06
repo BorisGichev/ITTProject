@@ -89,12 +89,12 @@
 
 			</ul>
 			<div class="col-sm-3 col-md-3 pull-right">
-				<form class="navbar-form" role="search">
+				<form action="./SearchPage" method="get" class="navbar-form"
+					role="Search">
 					<div class="input-group">
-						<input type="text" class="form-control"
-							placeholder="Search for issues" name="q">
 						<div class="input-group-btn">
 							<button class="btn btn-default" type="submit">
+							Search
 								<i class="glyphicon glyphicon-search"></i>
 							</button>
 						</div>

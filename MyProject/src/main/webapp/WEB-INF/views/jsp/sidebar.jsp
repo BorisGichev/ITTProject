@@ -50,7 +50,10 @@
 
 
 		<li><a href="#"><trans:message code="sidebar.backlog" /></a></li>
-		<li><a href="#"><trans:message code="sidebar.activesprint" /></a></li>
+		<c:if test="${not empty sessionScope.activeSprint}">
+			<li><a href="./SprintInfo?id=${sessionScope.activeSprint}"><trans:message
+						code="sidebar.activesprint" /></a></li>
+		</c:if>
 		<li><a href="#"><trans:message code="sidebar.reports" /></a></li>
 		<li><a href="#"><trans:message code="sidebar.issues" /></a></li>
 	</ul>

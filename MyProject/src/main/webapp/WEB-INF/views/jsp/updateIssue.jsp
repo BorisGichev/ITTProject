@@ -1,3 +1,4 @@
+<%@page import="com.example.model.POJO.Activity"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,6 +12,7 @@
 <jsp:include page="homeTrue.jsp"></jsp:include>
 </head>
 <body>
+
 
 	<div id="loginbox" style="margin-top: 50px;"
 		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -53,16 +55,32 @@
 						<div class="col-md-9">
 							<spring:select name="type" path="type" class="form-control">
 								<option value="${oldIssue.type}">${oldIssue.type}</option>
-								<option value="notype"></option>
-								<option value="Task">Task</option>
-								<option value="Sub-Task">Sub-Task</option>
-								<option value="Bug">Bug</option>
-								<option value="Story">Story</option>
-								<option value="Epic">Epic</option>
+
+
+								<c:if test="${oldIssue.type != 'Task'}">
+									<option value="Task">Task</option>
+								</c:if>
+								<c:if test="${oldIssue.type != 'Sub-Task'}">
+									<option value="Sub-Task">Sub-Task</option>
+								</c:if>
+								<c:if test="${oldIssue.type != 'Bug'}">
+									<option value="Bug">Bug</option>
+								</c:if>
+								<c:if test="${oldIssue.type != 'Story'}">
+									<option value="Story">Story</option>
+								</c:if>
+								<c:if test="${oldIssue.type != 'Epic'}">
+									<option value="Epic">Epic</option>
+								</c:if>
+
+
+
+
+
+
 							</spring:select>
 						</div>
 					</div>
-
 					<div class="form-group">
 						<label for="firstname" class="col-md-3 control-label">Estimate
 							in hours </label>
@@ -85,10 +103,16 @@
 						<div class="col-md-9">
 							<spring:select name="reporter" path="reportedID"
 								class="form-control">
-								<option value="${user.id}">${user.username} (You)</option>
+
+								<c:forEach var="userCurrent" items="${usersByOrg}">
+									<c:if test="${userCurrent.id==oldIssue.reportedID }">
+										<option value="${userCurrent.id}">${userCurrent.username}</option>
+									</c:if>
+								</c:forEach>
+
 
 								<c:forEach var="user2" items="${usersByOrg}">
-									<c:if test="${user.id!=user2.id }">
+									<c:if test="${oldIssue.reportedID!=user2.id }">
 										<option value="${user2.id}">${user2.username}</option>
 									</c:if>
 								</c:forEach>
@@ -159,7 +183,7 @@
 
 							<spring:select name="assignee" path="assigneeID"
 								class="form-control">
-								<option value="${user.id}">${user.username} (You)</option>
+								<option value="${user.id}">${user.username}(You)</option>
 
 								<c:forEach var="user2" items="${usersByOrg}">
 									<c:if test="${user.id!=user2.id }">
@@ -174,7 +198,8 @@
 						<label for="firstname" class="col-md-3 control-label">Sprint
 						</label>
 						<div class="col-md-9">
-							<spring:select name="sprintId" path="sprintID" class="form-control">
+							<spring:select name="sprintId" path="sprintID"
+								class="form-control">
 								<option value="0"></option>
 								<c:forEach var="sprint" items="${sprintsForProject}">
 									<option value="${sprint.id}">${sprint.name}</option>

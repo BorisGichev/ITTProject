@@ -224,5 +224,109 @@ public class ActivityDAO extends AbstractDBConnDAO implements IActivityDAO {
 		}
 
 	}
+	
+	@Override
+	public List<Activity> getAllActivitiesContainingComment(String comment,
+			int projectID) throws DBException, WorkPlanDAOException {
+		List<Activity> getAllActivitiesContainingComment = new ArrayList<Activity>();
+
+		PreparedStatement ps;
+		try {
+			ps = getCon()
+					.prepareStatement(
+							"SELECT c.activity_id FROM comments c join activities a on(c.activity_id=a.activity_id) where text like ? AND a.project_id=?;");
+
+			ps.setString(1, "%" + comment + "%");
+			ps.setInt(2, projectID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				getAllActivitiesContainingComment.add(getActivityByID(rs
+						.getInt(1)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return getAllActivitiesContainingComment;
+	}
+
+	@Override
+	public List<Activity> getActivitiesByAssigneeName(String assignee,
+			int projectID) throws DBException {
+		try {
+			PreparedStatement ps = getCon()
+					.prepareStatement(
+							"SELECT activity_id  from activities a join  users u  on(a.assignee_id=u.user_id)  where full_name like ? AND project_id=?;");
+			ps.setString(1, "%" + assignee + "%");
+			ps.setInt(2, projectID);
+			ResultSet rs = ps.executeQuery();
+			List<Activity> listWithActivitiesOfUser = new LinkedList<Activity>();
+			while (rs.next()) {
+
+				listWithActivitiesOfUser.add(IActivityDAO.getDAO("db")
+						.getActivityByID(rs.getInt(1)));
+			}
+			return listWithActivitiesOfUser;
+		} catch (SQLException | UnsupportedDataTypeException
+				| WorkPlanDAOException e) {
+			e.printStackTrace();
+			throw new DBException(
+					"Cannot get Activities right now!Try again later!");
+		}
+	}
+
+	@Override
+	public List<Activity> getAllActivitiesWithStatusInProject(
+			ActivityStatus activityStatus, int projectID) throws DBException,
+			WorkPlanDAOException {
+		List<Activity> getAllActivitiesWithStatusInProject = new ArrayList<Activity>();
+
+		PreparedStatement ps;
+		try {
+			ps = getCon()
+					.prepareStatement(
+							"Select  activity_id from activities where status=? AND project_id=?;");
+			ps.setString(1, activityStatus.toString());
+			ps.setInt(2, projectID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				getAllActivitiesWithStatusInProject.add(getActivityByID(rs
+						.getInt(1)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return getAllActivitiesWithStatusInProject;
+	}
+
+	@Override
+	public List<Activity> getAllActivitiesWithTypeInWholeProject(String type,
+			int projectID) throws DBException, WorkPlanDAOException {
+		List<Activity> getAllActivitiesWithTypeInProject = new ArrayList<Activity>();
+
+		PreparedStatement ps;
+		try {
+			ps = getCon()
+					.prepareStatement(
+							"Select  activity_id from activities where type=? AND project_id=?;");
+			ps.setString(1, type);
+			ps.setInt(2, projectID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				getAllActivitiesWithTypeInProject.add(getActivityByID(rs
+						.getInt(1)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DBException(
+					" cannot get all activities with status right now!Try again later!");
+		}
+
+		return getAllActivitiesWithTypeInProject;
+	}
 
 }
