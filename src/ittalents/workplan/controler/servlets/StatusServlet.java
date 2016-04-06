@@ -1,10 +1,10 @@
-package ittalents.workplan.controler.servlets;
+package com.example.controller.oldServlets;
 
-import ittalents.workplan.model.DAO.ActivityStatus;
-import ittalents.workplan.model.DAO.IActivityDAO;
-import ittalents.workplan.model.POJO.Activity;
-import ittalents.workplan.model.exception.DBException;
-import ittalents.workplan.model.exception.WorkPlanDAOException;
+import com.example.model.POJO.ActivityStatus;
+import com.example.model.DAO.IActivityDAO;
+import com.example.model.POJO.Activity;
+import com.example.model.exception.DBException;
+import com.example.model.exception.WorkPlanDAOException;
 
 import java.io.IOException;
 
@@ -49,7 +49,7 @@ public class StatusServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		response.sendRedirect("./IssueAll.jsp");
+		response.sendRedirect("./Issue?id="+activity.getId());
 	}
 
 	/**

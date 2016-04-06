@@ -1,15 +1,16 @@
-package ittalents.workplan.controler.servlets;
+package com.example.controller.oldServlets;
 
-import ittalents.workplan.model.DAO.ICommentDAO;
-import ittalents.workplan.model.POJO.Activity;
-import ittalents.workplan.model.POJO.Comment;
-import ittalents.workplan.model.POJO.User;
-import ittalents.workplan.model.exception.DBException;
-import ittalents.workplan.model.exception.WorkPlanDAOException;
+import com.example.model.DAO.ICommentDAO;
+import com.example.model.POJO.Activity;
+import com.example.model.POJO.Comment;
+import com.example.model.POJO.User;
+import com.example.model.exception.DBException;
+import com.example.model.exception.WorkPlanDAOException;
 
 import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,7 +48,10 @@ public class CommentServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		response.sendRedirect("./IssueComments.jsp");
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("./WEB-INF/views/jsp/IssueCommentsPage.jsp");
+		dispatcher.forward(request, response);
+//		response.sendRedirect("./WEB-INF/views/jsp/IssueCommentsPage.jsp");
 
 	}
 

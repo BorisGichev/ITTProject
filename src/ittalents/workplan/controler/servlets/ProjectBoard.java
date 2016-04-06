@@ -1,12 +1,12 @@
-package ittalents.workplan.controler.servlets;
+package com.example.controller.oldServlets;
 
-import ittalents.workplan.model.DAO.IActivityDAO;
-import ittalents.workplan.model.DAO.ISprintDAO;
-import ittalents.workplan.model.DAO.IUserDAO;
-import ittalents.workplan.model.POJO.Activity;
-import ittalents.workplan.model.POJO.Sprint;
-import ittalents.workplan.model.exception.DBException;
-import ittalents.workplan.model.exception.WorkPlanDAOException;
+import com.example.model.DAO.IActivityDAO;
+import com.example.model.DAO.ISprintDAO;
+import com.example.model.POJO.Activity;
+import com.example.model.POJO.Project;
+import com.example.model.POJO.Sprint;
+import com.example.model.exception.DBException;
+import com.example.model.exception.WorkPlanDAOException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,14 +42,17 @@ public class ProjectBoard extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
+		Project project = (Project) (request.getSession()
+				.getAttribute("project"));
+
 		try {
 			List<Sprint> listWithSprintsForThisProject = ISprintDAO
-					.getDAO("db").getAllSprintByProjectID(
-							(Integer) request.getSession().getAttribute(
-									"projectID"));
-//			System.out.println(listWithSprintsForThisProject);
+					.getDAO("db").getAllSprintByProjectID(project.getId());
+			// System.out.println(listWithSprintsForThisProject);
+
 			Map<Sprint, ArrayList<Activity>> activitiesBySprint = new TreeMap<Sprint, ArrayList<Activity>>(
 					(s1, s2) -> s1.getId() - s2.getId());
+
 			for (Sprint sprint : listWithSprintsForThisProject) {
 				if (!activitiesBySprint.containsKey(sprint)) {
 					activitiesBySprint.put(sprint, new ArrayList<Activity>());
@@ -60,19 +63,25 @@ public class ProjectBoard extends HttpServlet {
 
 			}
 			request.setAttribute("activitiesBySprint", activitiesBySprint);
-//			System.out.println("Map: " + activitiesBySprint);
+			// System.out.println("Map: " + activitiesBySprint);
 			List<Activity> activitiesNotInSprint = IActivityDAO.getDAO("db")
-					.getActivitiesNotInSprint(
-							(Integer) request.getSession().getAttribute(
-									"projectID"));
+					.getActivitiesNotInSprint(project.getId());
 
 			request.getSession().setAttribute("activitiesNotInSprint",
 					activitiesNotInSprint);
-//			int activeSprint = ISprintDAO.getDAO("db")
-//					.isThereAnActiveSprintInThisProject(
-//							(Integer) request.getSession().getAttribute(
-//									"projectID"));
-//			request.getSession().setAttribute("activeSprint", activeSprint);
+
+			if (project.getId() > 0
+					// when user log in new session he gets the active sprint
+					// for the project.
+					&& ISprintDAO
+							.getDAO("db")
+							.isThereAnActiveSprintInThisProject(project.getId()) > 0) {
+				Sprint sprint = ISprintDAO.getDAO("db").getSprintById(
+						ISprintDAO.getDAO("db")
+								.isThereAnActiveSprintInThisProject(
+										project.getId()));
+				request.getSession().setAttribute("activeSprint", sprint.getId());
+			}
 		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,8 +89,8 @@ public class ProjectBoard extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("./projectboard.jsp").forward(request,
-				response);
+		request.getRequestDispatcher("./WEB-INF/views/jsp/projectboard.jsp")
+				.forward(request, response);
 
 	}
 

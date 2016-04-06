@@ -1,16 +1,16 @@
-package ittalents.workplan.model.DAO;
+package com.example.model.DAO;
 
 import javax.activation.UnsupportedDataTypeException;
 
-import ittalents.workplan.model.POJO.Organization;
-import ittalents.workplan.model.exception.DBException;
-import ittalents.workplan.model.exception.WorkPlanDAOException;
+import com.example.model.POJO.Organization;
+import com.example.model.exception.DBException;
+import com.example.model.exception.WorkPlanDAOException;
 
 public interface IOrganizationDAO {
 
 	public int addOrganization(Organization organization) throws WorkPlanDAOException, DBException;
 
-	public static OrganizationDAO getDAO(String storage) throws UnsupportedDataTypeException {
+	public static IOrganizationDAO getDAO(String storage) throws UnsupportedDataTypeException {
 		if (storage.equalsIgnoreCase("db")) {
 			return new OrganizationDAO();
 		}
@@ -18,4 +18,6 @@ public interface IOrganizationDAO {
 	}
 
 	String getOrgName(int orgId) throws WorkPlanDAOException, DBException;
+
+	Organization getOrgByID(int orgId) throws WorkPlanDAOException, DBException;
 }

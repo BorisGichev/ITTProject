@@ -1,11 +1,11 @@
-package ittalents.workplan.controler.servlets;
+package com.example.controller.oldServlets;
 
-import ittalents.workplan.model.DAO.IProjectDAO;
-import ittalents.workplan.model.DAO.IUserDAO;
-import ittalents.workplan.model.POJO.Project;
-import ittalents.workplan.model.POJO.User;
-import ittalents.workplan.model.exception.DBException;
-import ittalents.workplan.model.exception.WorkPlanDAOException;
+import com.example.model.DAO.IProjectDAO;
+import com.example.model.DAO.IUserDAO;
+import com.example.model.POJO.Project;
+import com.example.model.POJO.User;
+import com.example.model.exception.DBException;
+import com.example.model.exception.WorkPlanDAOException;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * Servlet implementation class CreateProjectServlet
@@ -38,7 +39,7 @@ public class CreateProjectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		if (request.getSession(false) == null) {
-			response.sendRedirect("./normalLogin.jsp");
+			response.sendRedirect("./");
 			return;
 		}
 		User user = (User) request.getSession().getAttribute("user");
@@ -49,7 +50,7 @@ public class CreateProjectServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("./createproject.jsp").forward(request,
+		request.getRequestDispatcher("./WEB-INF/views/jsp/createproject.jsp").forward(request,
 				response);
 	}
 
@@ -57,17 +58,19 @@ public class CreateProjectServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		User user = (User) req.getSession().getAttribute("user");
+		
+		
 		Project project = new Project(req.getParameter("name"),
 				user.getOrganizationId(), req.getParameter("key"),
 				Integer.parseInt(req.getParameter("leader")));
 		try {
 			Integer projectID = IProjectDAO.getDAO("db").addProject(project);
-			req.getSession().setAttribute("projectID", projectID);
+			project.setId(projectID);
+			req.getSession().setAttribute("project", project);
 		} catch (WorkPlanDAOException | DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		resp.sendRedirect("./ProjectBoard");
 	}
 }

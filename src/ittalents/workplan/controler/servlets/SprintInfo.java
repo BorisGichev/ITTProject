@@ -1,12 +1,13 @@
-package ittalents.workplan.controler.servlets;
+package com.example.controller.oldServlets;
 
-import ittalents.workplan.model.DAO.ActivityStatus;
-import ittalents.workplan.model.DAO.IActivityDAO;
-import ittalents.workplan.model.DAO.ISprintDAO;
-import ittalents.workplan.model.POJO.Activity;
-import ittalents.workplan.model.POJO.Sprint;
-import ittalents.workplan.model.exception.DBException;
-import ittalents.workplan.model.exception.WorkPlanDAOException;
+import com.example.model.POJO.ActivityStatus;
+import com.example.model.POJO.Project;
+import com.example.model.DAO.IActivityDAO;
+import com.example.model.DAO.ISprintDAO;
+import com.example.model.POJO.Activity;
+import com.example.model.POJO.Sprint;
+import com.example.model.exception.DBException;
+import com.example.model.exception.WorkPlanDAOException;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,10 +40,14 @@ public class SprintInfo extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Sprint sprint;
+		Project project=(Project) request.getSession().getAttribute("project");
+		
+		
 		try {
 			System.out.println(Integer.parseInt(request.getParameter("id")));
 			sprint = ISprintDAO.getDAO("db").getSprintById(
 					Integer.parseInt(request.getParameter("id")));
+			
 			request.getSession().setAttribute("sprint", sprint);
 
 			if (request.getParameter("activityID") != null) {
@@ -52,9 +57,7 @@ public class SprintInfo extends HttpServlet {
 						sprint.getId());
 			}
 			List<Activity> activitiesNotInSprint = IActivityDAO.getDAO("db")
-					.getActivitiesNotInSprint(
-							(Integer) request.getSession().getAttribute(
-									"projectID"));
+					.getActivitiesNotInSprint(project.getId());
 
 			request.getSession().setAttribute("activitiesNotInSprint",
 					activitiesNotInSprint);
@@ -69,6 +72,10 @@ public class SprintInfo extends HttpServlet {
 							ActivityStatus.ToDo, sprint.getId());
 			request.getSession().setAttribute("listWithActivitiesToDoInSprint",
 					listWithActivitiesToDoInSprint);
+			
+			for (Activity activity : listWithActivitiesToDoInSprint) {
+				System.out.println(activity);
+			}
 
 			List<Activity> listWithActivitiesInProgressInSprint = IActivityDAO
 					.getDAO("db").getAllActivitiesWithStatus(
@@ -98,7 +105,7 @@ public class SprintInfo extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("./createsprint.jsp").forward(request,
+		request.getRequestDispatcher("./WEB-INF/views/jsp/createsprint.jsp").forward(request,
 				response);
 
 	}
@@ -120,7 +127,7 @@ public class SprintInfo extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		request.getRequestDispatcher("./createsprint.jsp").forward(request,
+		request.getRequestDispatcher("./WEB-INF/views/jsp/createsprint.jsp").forward(request,
 				response);
 	}
 }
