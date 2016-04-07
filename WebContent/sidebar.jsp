@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring"
 	uri="http://www.springframework.org/tags/form"%>
-
 <!-- Sidebar -->
 <div id="sidebar-wrapper">
 	<ul class="sidebar-nav">
@@ -41,18 +40,21 @@
 		<li class="sidebar-brand"><a href="./UpdateProfile"><c:out
 					value="${user.fullname}" /> </a></li>
 
+		<div align="center">
+
+			<font color="white">Current Project</font>
+
+		</div>
+		<li class="sidebar-brand"><a href="./SelectProject?projectId=${project.id}">${project.name}</a></li>
+
 
 		<li><a href="#"><trans:message code="sidebar.backlog" /></a></li>
-		<c:if test="${empty sessionScope.activeSprint}">
-			<li><a href="./ProjectBoard"><trans:message
-						code="sidebar.activesprint" /></a></li>
-		</c:if>
 		<c:if test="${not empty sessionScope.activeSprint}">
 			<li><a href="./SprintInfo?id=${sessionScope.activeSprint}"><trans:message
 						code="sidebar.activesprint" /></a></li>
 		</c:if>
-		<li><a href="#"><trans:message code="sidebar.reports" /></a></li>
-		<li><a href="#"><trans:message code="sidebar.issues" /></a></li>
+		<li><a href="./AllReports"><trans:message code="sidebar.reports" /></a></li>
+		<li><a href="./SearchPage"><trans:message code="sidebar.issues" /></a></li>
 	</ul>
 </div>
 <!-- /#sidebar-wrapper -->
